@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-const Orders = ({tempTables, clickedItem, setTempTables}) => {
+const Orders = ({tempTables, clickedItem}) => {
     return (
       <div>
           <button onClick={
-              ()=> {setTempTables([tempTables.filter(item => {
-                  return item !== tempTables[clickedItem];
-              })])}
+                  useEffect(()=> {
+                      tempTables[clickedItem].orders = ['chicken'];
+                      tempTables[clickedItem].total = 50;
+                  })
           }>click me</button>
-          <h1>{`The selected table contains the following details: ${tempTables.flat(6)}`}</h1>
+          <h1>{`The selected table contains the following details: ${tempTables[clickedItem].id}, ${tempTables[clickedItem].orders}, ${tempTables[clickedItem].total}`}</h1>
       </div>
     );
 };

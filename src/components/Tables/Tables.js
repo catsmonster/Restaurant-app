@@ -11,7 +11,7 @@ const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickC
                     </div>
                     <button className={'addTable'} onClick={()=> {
                         setClickCount(clickCount + 1);
-                        setTempTables([...tempTables, {id: clickCount, orders: [], total: 0}])}
+                        setTempTables()}
                     }>
                         Add a new table
                     </button>
