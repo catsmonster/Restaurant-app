@@ -2,8 +2,8 @@ import React from 'react';
 import './Tables.css';
 import Table from "../Table/Table";
 
-const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickCount, setClickedItem}) => {
-        const tablesArray = tempTables.map((user, i) => <Table setClickedItem={setClickedItem} setPath={setPath} key={tempTables[i].id} id={tempTables[i].id} /> );
+const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickCount, setClickedTable}) => {
+        const tablesArray = tempTables.map((user, i) => <Table setClickedTable={setClickedTable} setPath={setPath} key={tempTables[i].id} id={tempTables[i].id} /> );
             return (
                 <div>
                     <div className='container'>

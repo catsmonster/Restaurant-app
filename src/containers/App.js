@@ -10,7 +10,7 @@ function App() {
   /*const [tables, setTables] = useState([]);*/
   const [clickCount, setClickCount] = useState(1);
   const [path, setPath] = useState('tables');
-  const [clickedItem, setClickedItem] = useState(0);
+  const [clickedTable, setClickedTable] = useState(0);
   /*const [tempTables, setTempTables] = useState([{
     id: 0,
     orders: [],
@@ -38,9 +38,9 @@ function App() {
     <div className="App">
       <Navigation setPath={setPath} />
         {path === 'tables' ?
-        <Tables setClickedItem={setClickedItem} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
+        <Tables setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
         : path.includes(`order_`) ?
-        <Orders tempTables={tempTables} clickedItem={clickedItem}/> :
+        <Orders tempTables={tempTables} clickedTable={clickedTable}/> :
         <Statistics/>
         }
     </div>

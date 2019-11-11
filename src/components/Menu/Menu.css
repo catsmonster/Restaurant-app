@@ -1,0 +1,20 @@
+ul {
+    list-style-type: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.menuContainer {
+    display: flex;
+    padding-right: 35px;
+    background: steelblue;
+    margin: 25px;
+}
+
+.menuContainer :active {
+    transform: translate(0px, 3px);
+}
+
+.menuContainer li {
+    font-size: 1.3rem;
+}

@@ -3,9 +3,9 @@ import './Navigation.css';
 
 const Navigation = ({setPath}) => {
     return (
-            <ul>
-                <li onClick={()=> setPath('tables')}>Tables</li>
-                <li onClick={()=> setPath('Statistics')}>Statistics</li>
+            <ul className='NavUl'>
+                <li className='NavLi' onClick={()=> setPath('tables')}>Tables</li>
+                <li className='NavLi' onClick={()=> setPath('Statistics')}>Statistics</li>
             </ul>
         );
 
