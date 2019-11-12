@@ -2,7 +2,7 @@ import React from 'react';
 import './Menu.css';
 import {tempTables} from "../tempTables";
 
-const Menu = ({id, name, price, clickedTable}) => {
+const Menu = ({name, price, clickedTable}) => {
     return (
         <div onClick={()=> {
             tempTables[clickedTable].orders.push(name);

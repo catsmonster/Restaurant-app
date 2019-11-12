@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Navigation from "../components/Navigation/Navigation";
 import Tables from "../components/Tables/Tables";
@@ -11,6 +11,7 @@ function App() {
   const [clickCount, setClickCount] = useState(1);
   const [path, setPath] = useState('tables');
   const [clickedTable, setClickedTable] = useState(0);
+  const [requestChange, setRequestChange] = useState(false);
   /*const [tempTables, setTempTables] = useState([{
     id: 0,
     orders: [],
@@ -40,7 +41,7 @@ function App() {
         {path === 'tables' ?
         <Tables setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
         : path.includes(`order_`) ?
-        <Orders tempTables={tempTables} clickedTable={clickedTable}/> :
+        <Orders requestChange={requestChange} setRequestChange={setRequestChange} tempTables={tempTables} clickedTable={clickedTable}/> :
         <Statistics/>
         }
     </div>
