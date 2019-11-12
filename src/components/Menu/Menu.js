@@ -1,19 +1,15 @@
 import React from 'react';
 import './Menu.css';
-import {tempTables} from "../tempTables";
 
-const Menu = ({name, price, clickedTable}) => {
+const Menu = ({name, price, onClickMenu}) => {
     return (
-        <div onClick={()=> {
-            tempTables[clickedTable].orders.push(name);
-            tempTables[clickedTable].total += price;
-        }} className='menuContainer'>
-                <ul className='menuItem'>
-                    <li>{name}</li>
-                </ul>
-                <ul className='menuPrice'>
-                    <li>{price}</li>
-                </ul>
+        <div onClick={()=> onClickMenu({name, price})} className='menuContainer'>
+            <ul className='menuItem'>
+                <li>{name}</li>
+            </ul>
+            <ul className='menuPrice'>
+                <li>{price}</li>
+            </ul>
         </div>
     );
 };
