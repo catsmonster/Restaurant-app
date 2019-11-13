@@ -5,9 +5,9 @@ const DeleteBtn = ({tempTables, setTempTables, id, setClickCount, clickCount}) =
         <div>
         <button onClick={()=> {
             const updatedTempTables = tempTables.filter((item) => item.id !== id);
-            updatedTempTables.map((item, i) => {
-                return item.id = i;
-            });
+            for (let i=0; i<updatedTempTables.length; i++) {
+                updatedTempTables[i].id = i;
+            }
             setTempTables(updatedTempTables);
             setClickCount(clickCount - 1);
         }}>X</button>

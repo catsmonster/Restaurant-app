@@ -10,7 +10,6 @@ function App() {
   const [clickCount, setClickCount] = useState(1);
   const [path, setPath] = useState('tables');
   const [clickedTable, setClickedTable] = useState(0);
-  const [requestChange, setRequestChange] = useState(false);
   const [tempTables, setTempTables] = useState([{
     id: 0,
     orders: [],
@@ -23,7 +22,7 @@ function App() {
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
-                <Orders requestChange={requestChange} setRequestChange={setRequestChange} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> :
+                <Orders tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> :
                 <Statistics tempTalbes={tempTables}/>
         }
       </div>
