@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Statistics = () => {
+const Statistics = ({tempTalbes}) => {
+    console.log(tempTalbes);
     return (
         <div>
 

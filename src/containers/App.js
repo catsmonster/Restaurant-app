@@ -21,10 +21,10 @@ function App() {
       <div className="App">
         <Navigation setPath={setPath} />
         {path === 'tables' ?
-            <Tables setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
+            <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
                 <Orders requestChange={requestChange} setRequestChange={setRequestChange} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> :
-                <Statistics/>
+                <Statistics tempTalbes={tempTables}/>
         }
       </div>
   );
