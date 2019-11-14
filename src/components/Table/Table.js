@@ -10,7 +10,7 @@ const Table = ({id, setPath, setClickedTable, setTempTables, tempTables, setClic
                 setClickedTable(id);
                 setPath(`order_${id}`)}
 
-            }>{`Click here to view and edit table number ${id}`}</p>
+            }>{`Click here to view and edit table number ${id + 1}`}</p>
         </div>
     );
 };

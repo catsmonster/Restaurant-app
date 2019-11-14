@@ -9,3 +9,12 @@
     cursor: pointer;
     user-select: none;
 }
+
+.deleteBtnContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.deleteBtn {
+    padding: 5px 10px;
+}

@@ -4,14 +4,14 @@ ul {
     user-select: none;
 }
 
-.menuContainer {
+div.menuContainer {
     display: flex;
     padding-right: 35px;
     background: steelblue;
     margin: 25px;
 }
 
-.menuContainer :active {
+div.menuContainer :active {
     transform: translate(0px, 3px);
 }
 

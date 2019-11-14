@@ -6,13 +6,13 @@ const RemoveMenu = ({name, onRemoveOrderedItem}) => {
 
         }}>
             {name[1]<2 ?
-                <div>
-                    <button onClick={()=> onRemoveOrderedItem({name})}>X</button>
-                    {`The table ordered ${name[1]} plate of ${name[0]}`}
+                <div className='foodContainer'>
+                    <button className='deleteBtn' onClick={()=> onRemoveOrderedItem({name})}>X</button>
+                    <span>{`${name[1]} plate of ${name[0]}`}</span>
                 </div> :
-                <div>
-                    <button onClick={()=> onRemoveOrderedItem({name})}>X</button>
-                    {`The table ordered ${name[1]} plates of ${name[0]}`}
+                <div className='foodContainer'>
+                    <button className='deleteBtn' onClick={()=> onRemoveOrderedItem({name})}>X</button>
+                    <span>{`${name[1]} plates of ${name[0]}`}</span>
                 </div>}
 
         </div>

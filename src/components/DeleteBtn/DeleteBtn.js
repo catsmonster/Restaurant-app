@@ -2,8 +2,8 @@ import React from 'react';
 
 const DeleteBtn = ({tempTables, setTempTables, id, setClickCount, clickCount}) => {
     return (
-        <div>
-        <button onClick={()=> {
+        <div className='deleteBtnContainer'>
+        <button className='deleteBtn' onClick={()=> {
             const updatedTempTables = tempTables.filter((item) => item.id !== id);
             for (let i=0; i<updatedTempTables.length; i++) {
                 updatedTempTables[i].id = i;
