@@ -5,6 +5,13 @@
     padding: 1%;
 }
 
+.activeTableDiv {
+    background: orange;
+    margin: 1%;
+    font-size: 1.5rem;
+    padding: 1%;
+}
+
 .tableDiv p {
     cursor: pointer;
     user-select: none;

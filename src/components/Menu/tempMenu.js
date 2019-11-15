@@ -1,15 +1,20 @@
 export const tempMenu = [{
   id: 1,
     name: 'chicken',
-  price: 50
+  price: 80
 },
     {
         id: 2,
         name: 'salad',
-        price: 10
+        price: 55
     },
     {
         id: 3,
         name: 'beef',
-        price: 80
+        price: 120
+    },
+    {
+        id: 4,
+        name: 'pizza',
+        price: 90
     }];

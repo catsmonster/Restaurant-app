@@ -16,7 +16,9 @@ const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickC
                 setTempTables([...tempTables, {
                     id: clickCount,
                     orders: [],
-                    total: 0
+                    total: 0,
+                    tableActive: false,
+                    timeAdded: new Date()
                 }])}
             }>
                 Add a new table

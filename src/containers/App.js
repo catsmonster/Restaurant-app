@@ -10,12 +10,13 @@ function App() {
   const [clickCount, setClickCount] = useState(1);
   const [path, setPath] = useState('tables');
   const [clickedTable, setClickedTable] = useState(0);
-  const [checkoutClicked, setCheckoutClicked] = useState(false);
   const [logTables, setLogTables] = useState(0);
   const [tempTables, setTempTables] = useState([{
     id: 0,
     orders: [],
-    total: 0
+    total: 0,
+    tableActive: false,
+    timeAdded: new Date()
   }]);
 
   return (
@@ -24,8 +25,8 @@ function App() {
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
-                <Orders logTables={logTables} setLogTables={setLogTables} checkoutClicked={checkoutClicked} setCheckoutClicked={setCheckoutClicked} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> :
-                <Statistics tempTalbes={tempTables}/>
+                <Orders logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> :
+                <Statistics logTables={logTables}/>
         }
       </div>
   );

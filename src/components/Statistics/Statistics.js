@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Statistics = ({tempTalbes}) => {
-    console.log(tempTalbes);
+const Statistics = ({logTables}) => {
     return (
         <div>
-
+            {`The total revenue from all checked out tables is ${logTables}`}
         </div>
     );
 };
