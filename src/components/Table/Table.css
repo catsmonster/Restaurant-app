@@ -3,6 +3,7 @@
     margin: 1%;
     font-size: 1.5rem;
     padding: 1%;
+    box-shadow: #282c34 5px 5px 10px;
 }
 
 .activeTableDiv {
@@ -24,4 +25,10 @@
 
 .deleteBtn {
     padding: 5px 10px;
+}
+
+.clickTable {
+    cursor: pointer;
+    user-select: none;
+    color: white;
 }

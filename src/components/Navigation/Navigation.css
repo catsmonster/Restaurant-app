@@ -1,6 +1,9 @@
 .NavUl {
     list-style-type: none;
     display: flex;
+    box-shadow: 0 5px 20px;
+    padding: 10px 0 20px 10px;
+    background: #ffffffcf;
 }
 
 .NavLi {

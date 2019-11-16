@@ -15,7 +15,7 @@ const Table = ({id, setPath, setClickedTable, setTempTables, tempTables, setClic
     return (
         <div className={setActiveTable()} id={id}>
             <DeleteBtn id={id} setTempTables={setTempTables} tempTables={tempTables} setClickCount={setClickCount} clickCount={clickCount}/>
-            <p onClick={()=> {
+            <p className='clickTable' onClick={()=> {
                 setClickedTable(id);
                 setPath(`order_${id}`)}
 
