@@ -52,7 +52,9 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
 
     const logTotal = () => {
         const totalWithTip = tempTables[clickedTable].total;
-        setLogTables(logTables + totalWithTip);
+        const updatedLogTables = {...logTables};
+        updatedLogTables.total = logTables.total + totalWithTip;
+        setLogTables(updatedLogTables);
     };
 
     const tipChange = () => {

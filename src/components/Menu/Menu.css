@@ -1,14 +1,20 @@
 ul {
     list-style-type: none;
+}
+
+.menuItem {
+    justify-content: center;
     cursor: pointer;
     user-select: none;
 }
 
 div.menuContainer {
+    justify-content: center;
     display: flex;
     padding-right: 35px;
     background: steelblue;
     margin: 25px;
+    box-shadow: 0 10px 20px;
 }
 
 div.menuContainer :active {
@@ -17,4 +23,10 @@ div.menuContainer :active {
 
 .menuContainer li {
     font-size: 1.3rem;
+}
+
+.deleteBtn {
+    border-radius: 20px;
+    border: aquamarine solid 1px;
+    background: #ffffffb0;
 }

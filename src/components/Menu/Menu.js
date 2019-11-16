@@ -7,7 +7,7 @@ const Menu = ({name, price, onClickMenu}) => {
             <ul className='menuItem'>
                 <li>{name}</li>
             </ul>
-            <ul className='menuPrice'>
+            <ul className='menuItem'>
                 <li>{price}</li>
             </ul>
         </div>
