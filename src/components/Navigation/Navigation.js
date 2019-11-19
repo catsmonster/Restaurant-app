@@ -6,6 +6,7 @@ const Navigation = ({setPath}) => {
             <ul className='NavUl'>
                 <li className='NavLi' onClick={()=> setPath('tables')}>Tables</li>
                 <li className='NavLi' onClick={()=> setPath('Statistics')}>Statistics</li>
+                <li className='NavLi' onClick={()=> setPath('customize')}>Customize menu</li>
             </ul>
         );
 

@@ -19,7 +19,9 @@ const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickC
                     total: 0,
                     tableActive: false,
                     timeAdded: new Date()
-                }])}
+                }])
+
+            }
             }>
                 Add a new table
             </button>

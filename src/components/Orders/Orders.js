@@ -3,8 +3,11 @@ import Menu from "../Menu/Menu";
 import {tempMenu} from "../Menu/tempMenu";
 import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
+import SearchMenu from "../SearchMenu/SearchMenu";
+import Scroll from "../Scroll";
+import CategoryItem from "../CategoryItem/CategoryItem";
 
-const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables}) => {
+const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive}) => {
     let count = {};
     tempTables[clickedTable].orders.forEach((i) => {
         count[i] = (count[i] || 0) + 1;
@@ -17,6 +20,10 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
         updatedTempTables[clickedTable].total += price;
         updatedTempTables[clickedTable].tableActive = true;
         setTempTables(updatedTempTables);
+    };
+
+    const onClickCategory = ({name}) => {
+        setSelectedCategory(name);
     };
 
     const onRemoveOrderedItem = ({name}) => {
@@ -73,12 +80,30 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
       logTotal();
       clearTable();
     };
+
+    let allCategories = ['All'];
+    for (let i=0; i<tempMenu.length; i++) {
+        allCategories.push(tempMenu[i].category)
+    }
+    const uniqueCategories = [...new Set(allCategories)];
+
+    const categoriesArray = uniqueCategories.map((item, i) => {
+       return <CategoryItem categoryActive={categoryActive} setCategoryActive={setCategoryActive} onClickCategory={onClickCategory} key={i} id={i} name={item}/>
+    });
+    console.log(selectedCategory);
+
         return (
             <div>
                 <h1>This is da menu!</h1>
                 <div className='menuArray'>
-                    {menuArray}
+                    <Scroll>
+                        {categoriesArray}
+                    </Scroll>
+                    <Scroll>
+                        {menuArray}
+                    </Scroll>
                 </div>
+                <SearchMenu setMenuSearch={setMenuSearch}/>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
                 <div className='containerOfContainer'>
                     <div className='menuArrayContainer'>

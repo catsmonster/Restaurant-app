@@ -1,20 +1,24 @@
 export const tempMenu = [{
   id: 1,
-    name: 'chicken',
-  price: 80
+    name: 'grilled chicken',
+  price: 80,
+    category: 'main dishes'
 },
     {
         id: 2,
-        name: 'salad',
-        price: 55
+        name: 'ceaser salad',
+        price: 55,
+        category: 'starters'
     },
     {
         id: 3,
-        name: 'beef',
-        price: 120
+        name: 'beef steak',
+        price: 120,
+        category: 'main dishes'
     },
     {
         id: 4,
-        name: 'pizza',
-        price: 90
+        name: 'pepperony',
+        price: 90,
+        category: 'pizzas'
     }];

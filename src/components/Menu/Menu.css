@@ -6,6 +6,7 @@ ul {
     justify-content: center;
     cursor: pointer;
     user-select: none;
+    text-transform: capitalize;
 }
 
 div.menuContainer {
@@ -21,11 +22,15 @@ div.menuContainer :active {
 }
 
 .menuContainer li {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .deleteBtn {
     border-radius: 20px;
     border: aquamarine solid 1px;
     background: #ffffffb0;
+}
+
+#categoryActive {
+    background-color: orange;
 }

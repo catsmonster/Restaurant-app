@@ -3,7 +3,8 @@ import './Menu.css';
 
 const Menu = ({name, price, onClickMenu}) => {
     return (
-        <div onClick={()=> onClickMenu({name, price})} className='menuContainer'>
+        <div onClick={()=> {
+            onClickMenu({name, price})}} className='menuContainer'>
             <ul className='menuItem'>
                 <li>{name}</li>
             </ul>
