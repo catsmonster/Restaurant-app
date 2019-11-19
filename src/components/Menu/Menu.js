@@ -5,12 +5,12 @@ const Menu = ({name, price, onClickMenu}) => {
     return (
         <div onClick={()=> {
             onClickMenu({name, price})}} className='menuContainer'>
-            <ul className='menuItem'>
-                <li>{name}</li>
-            </ul>
-            <ul className='menuItem'>
-                <li>{price}</li>
-            </ul>
+            <span className='menuItem'>
+                {name}
+            </span>
+            <span className='menuItem'>
+                {price}
+            </span>
         </div>
     );
 };

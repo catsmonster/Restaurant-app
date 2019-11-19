@@ -12,7 +12,7 @@ ul {
 div.menuContainer {
     justify-content: center;
     display: flex;
-    padding-right: 35px;
+    padding: 15px 30px;
     background: steelblue;
     box-shadow: 0 10px 20px;
 }
@@ -21,7 +21,7 @@ div.menuContainer :active {
     transform: translate(0px, 3px);
 }
 
-.menuContainer li {
+.menuContainer li, span {
     font-size: 1.2rem;
 }
 

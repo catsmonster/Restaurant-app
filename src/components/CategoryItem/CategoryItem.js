@@ -6,9 +6,9 @@ const CategoryItem = ({name, onClickCategory, categoryActive, setCategoryActive,
           onClickCategory({name});
           setCategoryActive(id);
       }}>
-          <ul className='menuItem'>
-              <li>{name}</li>
-          </ul>
+          <span className='menuItem'>
+              {name}
+          </span>
       </div>
     );
 };
