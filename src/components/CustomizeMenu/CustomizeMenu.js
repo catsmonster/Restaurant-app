@@ -44,10 +44,10 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
                     updatedInput.category = e.target.value.toLowerCase();
                     setMenuInput(updatedInput);
                 }}/>
-                <button onClick={()=> updateMenu()}>Add dish</button>
+                <button className='addTable' onClick={()=> updateMenu()}>Add dish</button>
             </div> :
                 <div>
-                    <button onClick={() => setAddNewItemtoMenu(true)}>Add a new menu item</button>
+                    <button className='addTable' onClick={() => setAddNewItemtoMenu(true)}>Add a new menu item</button>
                 </div>
             }
         </div>
