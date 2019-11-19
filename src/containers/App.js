@@ -37,7 +37,8 @@ function App() {
 
     const resetCategoriesState = () => {
         setCategoryActive(0);
-        setSelectedCategory('All')
+        setSelectedCategory('All');
+        setMenuSearch('');
     };
 
 
