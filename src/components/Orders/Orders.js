@@ -43,8 +43,15 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
         setTempTables(updatedTempTables);
     };
 
-    const menuArray = tempMenu.map((item, i) => {
-        return <Menu key={tempMenu[i].id} id={tempMenu[i].id} name={tempMenu[i].name} price={tempMenu[i].price} onClickMenu={onClickMenu}/>
+    const menuOfSelectedCategory = tempMenu.filter((item) => {
+        if (selectedCategory === 'All') {
+            return item;
+        }
+        return  item.category === selectedCategory;
+    });
+
+    const menuArray = menuOfSelectedCategory.map((item, i) => {
+        return <Menu key={menuOfSelectedCategory[i].id} id={menuOfSelectedCategory[i].id} name={menuOfSelectedCategory[i].name} price={menuOfSelectedCategory[i].price} onClickMenu={onClickMenu}/>
     });
 
     const selectedMenuArr = arrCount.map((item, i)=> {
@@ -90,7 +97,6 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
     const categoriesArray = uniqueCategories.map((item, i) => {
        return <CategoryItem categoryActive={categoryActive} setCategoryActive={setCategoryActive} onClickCategory={onClickCategory} key={i} id={i} name={item}/>
     });
-    console.log(selectedCategory);
 
         return (
             <div>
