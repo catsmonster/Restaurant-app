@@ -13,6 +13,7 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
         count[i] = (count[i] || 0) + 1;
     });
     let arrCount = Object.entries(count);
+    arrCount.sort();
 
     const onClickMenu = ({name, price}) => {
         const updatedTempTables = [...tempTables];
