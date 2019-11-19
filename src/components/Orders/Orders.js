@@ -45,10 +45,12 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
     };
 
     const menuOfSelectedCategory = tempMenu.filter((item) => {
-        if (selectedCategory === 'All') {
+        if (selectedCategory === 'All' && !menuSearch.length > 0) {
             return item;
+        } else if (menuSearch.length > 0) {
+            return item.name.toLowerCase().includes(menuSearch.toLowerCase());
         }
-        return  item.category === selectedCategory;
+        return item.category === selectedCategory;
     });
 
     const menuArray = menuOfSelectedCategory.map((item, i) => {
@@ -110,7 +112,10 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
                         {menuArray}
                     </Scroll>
                 </div>
-                <SearchMenu setMenuSearch={setMenuSearch}/>
+                <div className='searchContainer'>
+                    <span id='searchText'>Search menu item:</span>
+                    <SearchMenu setMenuSearch={setMenuSearch}/>
+                </div>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
                 <div className='containerOfContainer'>
                     <div className='menuArrayContainer'>

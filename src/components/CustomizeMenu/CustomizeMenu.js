@@ -1,5 +1,6 @@
 import React from 'react';
 import {tempMenu} from "../Menu/tempMenu";
+import './CustomizeMenu.css'
 
 const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItemtoMenu}) => {
     const updateMenu = () => {
@@ -24,7 +25,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
         <div>
             <h2>Here you will be able to customize your menu</h2>
             {addNewItemtoMenu ?
-            <div>
+            <div className='addDish'>
                 <span>Please enter dish name:</span>
                 <input type="text" onChange={(e) => {
                     let updatedInput = {...menuInput};
