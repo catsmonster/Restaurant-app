@@ -35,10 +35,15 @@ function App() {
         setLogTables(updatedLogTables);
     }, [tempTables]);
 
+    const resetCategoriesState = () => {
+        setCategoryActive(0);
+        setSelectedCategory('All')
+    };
+
 
   return (
       <div className="App">
-        <Navigation setPath={setPath} />
+        <Navigation resetCategoriesState={resetCategoriesState} setPath={setPath} />
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
