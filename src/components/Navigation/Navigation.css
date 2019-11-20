@@ -13,3 +13,7 @@
     cursor: pointer;
     user-select: none;
 }
+
+.navActive {
+    background-color: orange;
+}

@@ -17,6 +17,7 @@ function App() {
   const [addNewItemtoMenu, setAddNewItemtoMenu] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [categoryActive, setCategoryActive] = useState(0);
+  const [navActive, setNavActive] = useState(0);
   const [tempTables, setTempTables] = useState([{
     id: 0,
     orders: [],
@@ -70,7 +71,7 @@ function App() {
 
   return (
       <div className="App">
-        <Navigation resetCategoriesState={resetCategoriesState} setPath={setPath} />
+        <Navigation setNavActive={setNavActive} navActive={navActive} resetCategoriesState={resetCategoriesState} setPath={setPath} />
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?

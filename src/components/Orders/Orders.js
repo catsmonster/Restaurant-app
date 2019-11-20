@@ -7,7 +7,7 @@ import SearchMenu from "../SearchMenu/SearchMenu";
 import Scroll from "../Scroll";
 import CategoryItem from "../CategoryItem/CategoryItem";
 
-const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, path}) => {
+const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders}) => {
 
     const waitingOrders = getRelevantOrders('waiting');
     const preparedOrders = getRelevantOrders('prepared');
