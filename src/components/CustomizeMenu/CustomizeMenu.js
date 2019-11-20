@@ -35,7 +35,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
                 <span>Please enter dish price:</span>
                 <input type="text" onChange={(e) => {
                     let updatedInput = {...menuInput};
-                    updatedInput.price = Number(e.target.value);
+                    updatedInput.price = Math.abs(Number(e.target.value));
                     setMenuInput(updatedInput);
                 }}/>
                 <span>Please enter a category</span>
