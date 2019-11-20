@@ -2,18 +2,20 @@
     list-style-type: none;
     display: flex;
     box-shadow: 0 5px 20px;
-    padding: 10px 0 20px 10px;
-    background: #ffffffcf;
+    /* padding: 10px 0 20px 10px; */
+    background: #ffffffbb;
+    font-weight: bold;
 }
 
 .NavLi {
     justify-content: left;
-    padding-right: 20px;
+    padding: 10px 20px;
     font-size: 1.1rem;
     cursor: pointer;
     user-select: none;
 }
 
 .navActive {
-    background-color: orange;
+    background-color: #000000aa;
+    color: white;
 }

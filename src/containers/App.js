@@ -22,10 +22,9 @@ function App() {
     id: 0,
     orders: [],
     total: 0,
-    tableActive: 'false',
+    tableActive: false,
     timeAdded: new Date()
   }]);
-
 
     const resetCategoriesState = () => {
         setCategoryActive(0);
