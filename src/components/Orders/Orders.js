@@ -127,10 +127,19 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
                     <SearchMenu setMenuSearch={setMenuSearch}/>
                 </div>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
-                <div className='orderHeaders'>
-                    <h3 className='waitingHeader'>Items waiting:</h3>
-                    <h3 className='deliveredHeader'>Items delivered:</h3>
-                </div>
+                {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
+                    <div className='orderHeaders'>
+                        <h3 className='waitingHeader'>Items waiting:</h3>
+                        <h3 className='deliveredHeader'>Items delivered:</h3>
+                    </div> : selectedMenuArr.length > 0 ?
+                    <div className='orderHeaders'>
+                        <h3 className='waitingHeader'>Items waiting:</h3>
+                    </div> : deliveredOrdersArr.length > 0 ?
+                        <div className='orderHeaders'>
+                            <h3 className='deliveredHeader'>Items delivered:</h3>
+                        </div> :
+                            <div></div>
+                }
                     <div className='menuArrayContainer'>
                         <div className='selectedMenu'>
                             <Scroll>
