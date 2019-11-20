@@ -1,31 +1,43 @@
 import React from 'react';
-import RemoveMenu from "../RemoveMenu/RemoveMenu";
+import ToDoMenu from "../ToDoMenu/ToDoMenu";
+import Scroll from "../Scroll";
 
-const Statistics = ({logTables, setLogTables}) => {
-    let count = {};
-    logTables.orders.forEach((i) => {
-        count[i] = (count[i] || 0) + 1;
-    });
-    let arrCount = Object.entries(count);
+const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) => {
 
-    const onRemoveOrderedItem = ({name}) => {
-      const updatedLog = {...logTables};
-      const indexOfItem = updatedLog.orders.indexOf(name[0]);
-      updatedLog.orders.splice(indexOfItem, 1);
-      setLogTables(updatedLog);
+
+    const onSetDone = ({time, table, status}) => {
+      const updateTempTables = [...tempTables];
+      const indexOfSelectedOrder = updateTempTables[table].orders.findIndex((order) => order.time.getTime() === time);
+      if (status === 'waiting') {
+          updateTempTables[table].orders[indexOfSelectedOrder].status = 'prepared';
+      } else {
+          updateTempTables[table].orders[indexOfSelectedOrder].status = 'delivered';
+      }
+      setTempTables(updateTempTables);
     };
 
-    const selectedMenuArr = arrCount.map((item, i)=> {
-        return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+    const waitingArray = getRelevantOrders('waiting');
+
+    const selectedMenuArr = waitingArray.map((item, i)=> {
+        return <ToDoMenu key={i} id={i} name={waitingArray[i][0]} table={waitingArray[i][1]} time={waitingArray[i][2]} status={waitingArray[i][3]} onSetDone={onSetDone} />
+    });
+
+    const deliveredArray = getRelevantOrders('prepared');
+
+    const deliveredMenuArr = deliveredArray.map((item, i)=> {
+        return <ToDoMenu key={i} id={i} name={deliveredArray[i][0]} table={deliveredArray[i][1]} time={deliveredArray[i][2]} onSetDone={onSetDone} />
     });
 
     return (
         <div>
             <h2>To Do list:</h2>
             <div className='containerOfContainer'>
-                <div className='menuArrayContainer'>
-                    {selectedMenuArr}
-                </div>
+                <Scroll>
+                {selectedMenuArr}
+                </Scroll>
+                <Scroll>
+                    {deliveredMenuArr}
+                </Scroll>
             </div>
             <h2>Income:</h2>
             {`The total revenue from all checked out tables is ${parseFloat(logTables.total).toFixed(2)}`}

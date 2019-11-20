@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Navigation from "../components/Navigation/Navigation";
 import Tables from "../components/Tables/Tables";
@@ -25,20 +25,46 @@ function App() {
     timeAdded: new Date()
   }]);
 
-    useEffect(()=> {
-        const updatedLogTables = {...logTables};
-        let allOrders = [];
-        for (let i = 0; i < tempTables.length; i++) {
-            allOrders = allOrders.concat(tempTables[i].orders);
-        }
-        updatedLogTables.orders = allOrders;
-        setLogTables(updatedLogTables);
-    }, [tempTables]);
-
     const resetCategoriesState = () => {
         setCategoryActive(0);
         setSelectedCategory('All');
         setMenuSearch('');
+    };
+
+    const getRelevantOrders = (status) => {
+        let tempWaitingOrders = [];
+        if (path === 'Statistics') {
+            for (let i=0; i<tempTables.length; i++) {
+                tempWaitingOrders.push(tempTables[i].orders.filter((order) => order.status === status));
+            }
+        } else if (path.includes('order_')) {
+            tempWaitingOrders.push(tempTables[clickedTable].orders.filter((order) => order.status === status));
+        }
+
+        const waitingOrders = tempWaitingOrders.flat(1);
+
+        waitingOrders.sort((a,b)=>a.time.getTime() - b.time.getTime());
+
+        let ordersDetailsArray = [];
+        for (let i=0; i<waitingOrders.length; i++) {
+            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status]);
+        }
+        return ordersDetailsArray;
+    };
+
+    const enumerateOrders = (relevantOrders) => {
+        let orderNamesArr = [];
+        for (let i=0; i<relevantOrders.length; i++) {
+            orderNamesArr.push(relevantOrders[i][0]);
+        }
+
+        let count = {};
+        orderNamesArr.forEach((i) => {
+            count[i] = (count[i] || 0) + 1;
+        });
+        let arrCount = Object.entries(count);
+        arrCount.sort();
+        return arrCount;
     };
 
 
@@ -48,9 +74,9 @@ function App() {
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
-                <Orders categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
+                <Orders enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
                 <CustomizeMenu addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> :
-                <Statistics setLogTables={setLogTables} tempTables={tempTables} logTables={logTables}/>
+                <Statistics enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} setTempTables={setTempTables} tempTables={tempTables} logTables={logTables}/>
         }
       </div>
   );

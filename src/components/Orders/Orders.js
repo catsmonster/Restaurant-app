@@ -7,17 +7,18 @@ import SearchMenu from "../SearchMenu/SearchMenu";
 import Scroll from "../Scroll";
 import CategoryItem from "../CategoryItem/CategoryItem";
 
-const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive}) => {
-    let count = {};
-    tempTables[clickedTable].orders.forEach((i) => {
-        count[i] = (count[i] || 0) + 1;
-    });
-    let arrCount = Object.entries(count);
-    arrCount.sort();
+const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, path}) => {
+
+    const waitingOrders = getRelevantOrders('waiting');
+    const preparedOrders = getRelevantOrders('prepared');
+    const ordersToDisplay = waitingOrders.concat(preparedOrders);
+
+    const arrCount = enumerateOrders(ordersToDisplay);
+
 
     const onClickMenu = ({name, price}) => {
         const updatedTempTables = [...tempTables];
-        updatedTempTables[clickedTable].orders.push(name);
+        updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable});
         updatedTempTables[clickedTable].total += price;
         updatedTempTables[clickedTable].tableActive = true;
         setTempTables(updatedTempTables);
@@ -25,11 +26,13 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
 
     const onClickCategory = ({name}) => {
         setSelectedCategory(name);
+        setMenuSearch('');
     };
 
     const onRemoveOrderedItem = ({name}) => {
         const updatedTempTables = [...tempTables];
-        const indexOfOrderedItem = updatedTempTables[clickedTable].orders.indexOf(name[0]);
+        const orderedItemsArr = updatedTempTables[clickedTable].orders;
+        const indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0]);
         updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         let priceOfSelectedItem = 0;
         for (let i=0; i<tempMenu.length; i++)
@@ -59,6 +62,13 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
 
     const selectedMenuArr = arrCount.map((item, i)=> {
         return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+    });
+
+    const tempDeliveredOrders = getRelevantOrders('delivered');
+    const deliveredOrders = enumerateOrders(tempDeliveredOrders);
+
+    const deliveredOrdersArr = deliveredOrders.map((item, i)=> {
+        return <RemoveMenu key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
     });
 
     const clearTable = () => {
@@ -119,14 +129,29 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
                 <div className='containerOfContainer'>
                     <div className='menuArrayContainer'>
-                        {selectedMenuArr}
+                        <div>
+                            <h3>Orders to be delivered:</h3>
+                        </div>
+                        <div className='selectedMenu'>
+                            <Scroll>
+                                {selectedMenuArr}
+                            </Scroll>
+                        </div>
+                        <div>
+                            <h3>Orders delivered:</h3>
+                        </div>
+                        <div className='selectedMenu'>
+                            <Scroll>
+                                {deliveredOrdersArr}
+                            </Scroll>
+                        </div>
                     </div>
                 </div>
                 <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
-                <button onClick={()=> {
+                <button className='addTable' onClick={()=> {
                     tipChange()
                 }}>Checkout and add a custom tip</button>
-                <button onClick={()=> {
+                <button className='addTable' onClick={()=> {
                     tipChangeTen()
                 }}>Checkout and add 10% tip</button>
             </div>
