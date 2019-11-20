@@ -1,7 +1,7 @@
 {
   "name": "restaurant",
   "version": "0.1.0",
-  "homepage": "https://catsmonster.github.io/Restaurant-app/",
+  "homepage": "https://thenab0303.github.io/Restaurant-app/",
   "private": true,
   "dependencies": {
     "react": "^16.11.0",
