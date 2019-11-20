@@ -12,6 +12,10 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
           updateTempTables[table].orders[indexOfSelectedOrder].status = 'prepared';
       } else {
           updateTempTables[table].orders[indexOfSelectedOrder].status = 'delivered';
+          const ordersDelivered = updateTempTables[table].orders.filter((order) => order.status === 'delivered');
+          if (ordersDelivered.length === updateTempTables[table].orders.length) {
+              updateTempTables[table].tableActive = 'eating';
+          }
       }
       setTempTables(updateTempTables);
     };
