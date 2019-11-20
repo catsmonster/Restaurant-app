@@ -22,7 +22,7 @@ function App() {
     id: 0,
     orders: [],
     total: 0,
-    tableActive: 'false',
+    tableActive: false,
     timeAdded: new Date()
   }]);
   const [tempMenu, setTempMenu] = useState([{
@@ -54,8 +54,7 @@ function App() {
           active: true
       }]);
 
-
-    const resetWhenChangingPath = () => {
+    const resetCategoriesState = () => {
         setCategoryActive(0);
         setSelectedCategory('All');
         setMenuSearch('');

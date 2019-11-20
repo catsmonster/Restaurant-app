@@ -6,7 +6,6 @@ import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 
 const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu}) => {
 
-
     const waitingOrders = getRelevantOrders('waiting');
     const preparedOrders = getRelevantOrders('prepared');
     const ordersToDisplay = waitingOrders.concat(preparedOrders);
@@ -25,7 +24,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             }
         updatedTempTables[clickedTable].total -= priceOfSelectedItem;
         if (updatedTempTables[clickedTable].total === 0) {
-            updatedTempTables[clickedTable].tableActive = 'false';
+            updatedTempTables[clickedTable].tableActive = false;
             updatedTempTables[clickedTable].timeAdded = new Date();
         }
         setTempTables(updatedTempTables);
@@ -44,7 +43,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     const clearTable = () => {
         const updatedTempTable = [...tempTables];
-        updatedTempTable[clickedTable] = {id: clickedTable, orders: [], total: 0, tableActive: 'false', timeAdded: new Date()};
+        updatedTempTable[clickedTable] = {id: clickedTable, orders: [], total: 0, tableActive: false, timeAdded: new Date()};
         setTempTables(updatedTempTable);
     };
 
