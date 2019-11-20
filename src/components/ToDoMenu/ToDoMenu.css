@@ -1,0 +1,12 @@
+.todoList {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .containerOfContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}

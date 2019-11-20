@@ -32,9 +32,11 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
         <div>
             <h2>To Do list:</h2>
             <div className='containerOfContainer'>
+                <h3>Waiting list:</h3>
                 <Scroll>
                 {selectedMenuArr}
                 </Scroll>
+                <h3>Ready for delivery:</h3>
                 <Scroll>
                     {deliveredMenuArr}
                 </Scroll>

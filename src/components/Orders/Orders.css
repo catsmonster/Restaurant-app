@@ -8,24 +8,40 @@ span {
     margin-right: 5px;
 }
 
+
+.menuArrayContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.foodContainer {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
 .containerOfContainer {
     display: flex;
     justify-content: center;
 }
 
-.menuArrayContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.foodContainer {
-    margin-bottom: 20px;
-}
-
-
 .searchContainer {
     margin-top: 2%;
     display: flex;
     justify-content: center;
+}
+
+selectedMenu {
+    display: flex;
+    align-items: center;
+}
+
+.orderHeaders {
+    display: flex;
+    justify-content: center;
+}
+
+.waitingHeader {
+    padding-right: 8%;
 }

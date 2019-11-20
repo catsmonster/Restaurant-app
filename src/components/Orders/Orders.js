@@ -127,18 +127,15 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
                     <SearchMenu setMenuSearch={setMenuSearch}/>
                 </div>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
-                <div className='containerOfContainer'>
+                <div className='orderHeaders'>
+                    <h3 className='waitingHeader'>Items waiting:</h3>
+                    <h3 className='deliveredHeader'>Items delivered:</h3>
+                </div>
                     <div className='menuArrayContainer'>
-                        <div>
-                            <h3>Orders to be delivered:</h3>
-                        </div>
                         <div className='selectedMenu'>
                             <Scroll>
                                 {selectedMenuArr}
                             </Scroll>
-                        </div>
-                        <div>
-                            <h3>Orders delivered:</h3>
                         </div>
                         <div className='selectedMenu'>
                             <Scroll>
@@ -146,13 +143,20 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
                             </Scroll>
                         </div>
                     </div>
-                </div>
                 <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
                 <button className='addTable' onClick={()=> {
-                    tipChange()
+                    if (ordersToDisplay.length > 0) {
+                        alert('Table has not yet received all orders!')
+                    } else {
+                        tipChange()
+                    }
                 }}>Checkout and add a custom tip</button>
                 <button className='addTable' onClick={()=> {
-                    tipChangeTen()
+                    if (ordersToDisplay.length > 0) {
+                        alert('Table has not yet received all orders!')
+                    } else {
+                        tipChangeTen()
+                    }
                 }}>Checkout and add 10% tip</button>
             </div>
         );
