@@ -5,10 +5,12 @@ import DeleteBtn from "../DeleteBtn/DeleteBtn";
 const Table = ({id, setPath, setClickedTable, setTempTables, tempTables, setClickCount, clickCount}) => {
 
     const setActiveTable = () => {
-        if (tempTables[id].tableActive === false) {
+        if (tempTables[id].tableActive === 'false') {
             return 'tableDiv'
-        } else {
+        } else if (tempTables[id].tableActive === 'waiting') {
             return 'activeTableDiv'
+        } else {
+            return 'eatingTableDiv'
         }
     }
 

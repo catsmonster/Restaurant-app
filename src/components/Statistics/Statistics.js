@@ -28,6 +28,7 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
         return <ToDoMenu key={i} id={i} name={deliveredArray[i][0]} table={deliveredArray[i][1]} time={deliveredArray[i][2]} onSetDone={onSetDone} />
     });
 
+
     return (
         <div>
             <h2>To Do list:</h2>

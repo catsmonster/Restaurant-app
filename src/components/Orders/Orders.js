@@ -9,6 +9,7 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 
 const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders}) => {
 
+
     const waitingOrders = getRelevantOrders('waiting');
     const preparedOrders = getRelevantOrders('prepared');
     const ordersToDisplay = waitingOrders.concat(preparedOrders);
@@ -20,7 +21,7 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
         const updatedTempTables = [...tempTables];
         updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable});
         updatedTempTables[clickedTable].total += price;
-        updatedTempTables[clickedTable].tableActive = true;
+        updatedTempTables[clickedTable].tableActive = 'waiting';
         setTempTables(updatedTempTables);
     };
 
@@ -41,7 +42,7 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
             }
         updatedTempTables[clickedTable].total -= priceOfSelectedItem;
         if (updatedTempTables[clickedTable].total === 0) {
-            updatedTempTables[clickedTable].tableActive = false;
+            updatedTempTables[clickedTable].tableActive = 'false';
             updatedTempTables[clickedTable].timeAdded = new Date();
         }
         setTempTables(updatedTempTables);
@@ -73,7 +74,7 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
 
     const clearTable = () => {
         const updatedTempTable = [...tempTables];
-        updatedTempTable[clickedTable] = {id: clickedTable, orders: [], total: 0, tableActive: false, timeAdded: new Date()};
+        updatedTempTable[clickedTable] = {id: clickedTable, orders: [], total: 0, tableActive: 'false', timeAdded: new Date()};
         setTempTables(updatedTempTable);
     };
 
@@ -100,6 +101,7 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
       logTotal();
       clearTable();
     };
+
 
     let allCategories = ['All'];
     for (let i=0; i<tempMenu.length; i++) {
