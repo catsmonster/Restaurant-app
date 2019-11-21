@@ -1,11 +1,10 @@
 import React from 'react';
-import {tempMenu} from "../Menu/tempMenu";
 import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
 import Scroll from "../Scroll";
 import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu}) => {
 
     const waitingOrders = getRelevantOrders('waiting');
     const preparedOrders = getRelevantOrders('prepared');
@@ -73,9 +72,9 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     };
 
         return (
-            <div>
+            <div className='statisticsMain'>
                 <h1>This is da menu!</h1>
-                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
                 {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
                     <div className='orderHeaders'>

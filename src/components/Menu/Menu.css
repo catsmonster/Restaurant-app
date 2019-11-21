@@ -14,8 +14,9 @@ div.menuContainer {
     display: flex;
     padding: 15px 30px;
     background: #111111bb;
+    box-shadow: 0 10px 20px;
     color: white;
-    /* box-shadow: 0 10px 20px; */
+    /*box-shadow: 0 10px 20px;*/
 }
 
 div.menuContainer :active {

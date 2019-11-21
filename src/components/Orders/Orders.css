@@ -37,7 +37,7 @@ span {
     padding: 5px 10px;
 }
 
-selectedMenu {
+.selectedMenu {
     display: flex;
     align-items: center;
 }
@@ -50,3 +50,8 @@ selectedMenu {
 .waitingHeader {
     padding-right: 8%;
 }
+
+p {
+    color: white;
+}
+

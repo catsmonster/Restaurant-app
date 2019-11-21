@@ -1,9 +1,8 @@
 import React from 'react';
-import {tempMenu} from "../Menu/tempMenu";
 import './CustomizeMenu.css'
 import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 
-const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItemtoMenu, setTempTables, setCategoryActive, categoryActive, setMenuSearch, tempTables, path, clickedTable, menuSearch, selectedCategory, setSelectedCategory}) => {
+const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItemtoMenu, setTempTables, setCategoryActive, categoryActive, setMenuSearch, tempTables, path, clickedTable, menuSearch, selectedCategory, setSelectedCategory, tempMenu, setTempMenu}) => {
     const updateMenu = () => {
         let existingItems = [];
         for (let i=0; i<tempMenu.length; i++) {
@@ -23,7 +22,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
 
 
     return (
-        <div>
+        <div className='statisticsMain'>
             <h2>Here you will be able to customize your menu</h2>
             {addNewItemtoMenu ?
             <div className='addDish'>
@@ -46,10 +45,12 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
                     setMenuInput(updatedInput);
                 }}/>
                 <button className='addTable' onClick={()=> updateMenu()}>Add dish</button>
-                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+                <h3>Click a menu item to remove it from the menu - This will not affect history</h3>
+                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setTempMenu={setTempMenu} tempMenu={tempMenu}/>
             </div> :
                 <div>
-                    <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+                    <h3>Click a menu item to remove it from the menu - This will not affect history</h3>
+                    <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
                     <button className='addTable' onClick={() => setAddNewItemtoMenu(true)}>Add a new menu item</button>
                 </div>
             }

@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  background: linear-gradient(130deg, #3b3284, transparent);
+  background: center/cover url('../img/background.jpg') no-repeat fixed;
+  backdrop-filter: blur(10px);
   min-height: 100vh;
   height: 100%;
 }
