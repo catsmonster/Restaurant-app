@@ -29,9 +29,10 @@ div.menuContainer :active {
 .deleteBtn {
     border-radius: 20px;
     border: #00000044 solid 2px;
-    background: #ff000099;
     color: white;
     font-weight: bold;
+    background: center/15px auto #ff000099 url("../../img/bin.svg") no-repeat;
+    padding: 10px;
 }
 
 #categoryActive {
