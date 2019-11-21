@@ -1,8 +1,9 @@
 import React from 'react';
 import {tempMenu} from "../Menu/tempMenu";
 import './CustomizeMenu.css'
+import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 
-const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItemtoMenu}) => {
+const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItemtoMenu, setTempTables, setCategoryActive, categoryActive, setMenuSearch, tempTables, path, clickedTable, menuSearch, selectedCategory, setSelectedCategory}) => {
     const updateMenu = () => {
         let existingItems = [];
         for (let i=0; i<tempMenu.length; i++) {
@@ -35,7 +36,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
                 <span>Please enter dish price:</span>
                 <input type="text" onChange={(e) => {
                     let updatedInput = {...menuInput};
-                    updatedInput.price = Number(e.target.value);
+                    updatedInput.price = Math.abs(Number(e.target.value));
                     setMenuInput(updatedInput);
                 }}/>
                 <span>Please enter a category</span>
@@ -45,8 +46,10 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
                     setMenuInput(updatedInput);
                 }}/>
                 <button className='addTable' onClick={()=> updateMenu()}>Add dish</button>
+                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
             </div> :
                 <div>
+                    <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                     <button className='addTable' onClick={() => setAddNewItemtoMenu(true)}>Add a new menu item</button>
                 </div>
             }
