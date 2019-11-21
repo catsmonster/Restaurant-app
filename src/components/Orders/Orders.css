@@ -20,6 +20,10 @@ span {
     margin-bottom: 20px;
 }
 
+.menuList {
+    border-radius: 5px;
+}
+
 .containerOfContainer {
     display: flex;
     justify-content: center;

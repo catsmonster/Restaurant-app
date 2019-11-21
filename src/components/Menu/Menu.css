@@ -13,10 +13,9 @@ div.menuContainer {
     justify-content: center;
     display: flex;
     padding: 15px 30px;
-    background: #111111bb;
-    box-shadow: 0 10px 20px;
+    background: linear-gradient(#5291c9, #2278c16e, #438ac7);
+    /* box-shadow: 0 10px 20px; */
     color: white;
-    /*box-shadow: 0 10px 20px;*/
 }
 
 div.menuContainer :active {
@@ -36,5 +35,5 @@ div.menuContainer :active {
 }
 
 #categoryActive {
-    background: linear-gradient(orange, transparent);
+    background: linear-gradient(#e0a27fc4, #ff5e008c, #e0a27fc4);
 }
