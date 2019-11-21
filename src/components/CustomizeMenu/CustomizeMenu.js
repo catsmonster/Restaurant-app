@@ -14,7 +14,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
             if (existingItems.includes(menuInput.name.toLowerCase())) {
                 return alert(`The dish ${menuInput.name} already exists, please enter a unique dish name`);
             }
-            tempMenu.push({id: lastKnownId + 1, name: menuInput.name, price: menuInput.price, category: menuInput.category});
+            tempMenu.push({id: lastKnownId + 1, name: menuInput.name, price: menuInput.price, category: menuInput.category, active: true});
             setAddNewItemtoMenu(false);
         } else {
             alert("Please enter correct dish details.");
