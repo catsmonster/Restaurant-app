@@ -1,13 +1,11 @@
 import React from 'react';
-import Menu from "../Menu/Menu";
 import {tempMenu} from "../Menu/tempMenu";
 import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
-import SearchMenu from "../SearchMenu/SearchMenu";
 import Scroll from "../Scroll";
-import CategoryItem from "../CategoryItem/CategoryItem";
+import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 
-const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders}) => {
 
 
     const waitingOrders = getRelevantOrders('waiting');
@@ -15,20 +13,6 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
     const ordersToDisplay = waitingOrders.concat(preparedOrders);
 
     const arrCount = enumerateOrders(ordersToDisplay);
-
-
-    const onClickMenu = ({name, price}) => {
-        const updatedTempTables = [...tempTables];
-        updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable});
-        updatedTempTables[clickedTable].total += price;
-        updatedTempTables[clickedTable].tableActive = 'waiting';
-        setTempTables(updatedTempTables);
-    };
-
-    const onClickCategory = ({name}) => {
-        setSelectedCategory(name);
-        setMenuSearch('');
-    };
 
     const onRemoveOrderedItem = ({name}) => {
         const updatedTempTables = [...tempTables];
@@ -47,19 +31,6 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
         }
         setTempTables(updatedTempTables);
     };
-
-    const menuOfSelectedCategory = tempMenu.filter((item) => {
-        if (selectedCategory === 'All' && !menuSearch.length > 0) {
-            return item;
-        } else if (menuSearch.length > 0) {
-            return item.name.toLowerCase().includes(menuSearch.toLowerCase());
-        }
-        return item.category === selectedCategory;
-    });
-
-    const menuArray = menuOfSelectedCategory.map((item, i) => {
-        return <Menu key={menuOfSelectedCategory[i].id} id={menuOfSelectedCategory[i].id} name={menuOfSelectedCategory[i].name} price={menuOfSelectedCategory[i].price} onClickMenu={onClickMenu}/>
-    });
 
     const selectedMenuArr = arrCount.map((item, i)=> {
         return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
@@ -102,32 +73,10 @@ const Orders = ({tempTables, clickedTable, setTempTables, logTables, setLogTable
       clearTable();
     };
 
-
-    let allCategories = ['All'];
-    for (let i=0; i<tempMenu.length; i++) {
-        allCategories.push(tempMenu[i].category)
-    }
-    const uniqueCategories = [...new Set(allCategories)];
-
-    const categoriesArray = uniqueCategories.map((item, i) => {
-       return <CategoryItem categoryActive={categoryActive} setCategoryActive={setCategoryActive} onClickCategory={onClickCategory} key={i} id={i} name={item}/>
-    });
-
         return (
             <div>
                 <h1>This is da menu!</h1>
-                <div className='menuArray'>
-                    <Scroll>
-                        {categoriesArray}
-                    </Scroll>
-                    <Scroll>
-                        {menuArray}
-                    </Scroll>
-                </div>
-                <div className='searchContainer'>
-                    <span id='searchText'>Search menu item:</span>
-                    <SearchMenu setMenuSearch={setMenuSearch}/>
-                </div>
+                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                 <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
                 {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
                     <div className='orderHeaders'>
