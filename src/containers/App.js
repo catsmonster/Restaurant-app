@@ -25,6 +25,34 @@ function App() {
     tableActive: 'false',
     timeAdded: new Date()
   }]);
+  const [tempMenu, setTempMenu] = useState([{
+      id: 1,
+      name: 'grilled chicken',
+      price: 80,
+      category: 'main dishes',
+      active: true
+  },
+      {
+          id: 2,
+          name: 'ceaser salad',
+          price: 55,
+          category: 'starters',
+          active: true
+      },
+      {
+          id: 3,
+          name: 'beef steak',
+          price: 120,
+          category: 'main dishes',
+          active: true
+      },
+      {
+          id: 4,
+          name: 'pepperony',
+          price: 90,
+          category: 'pizzas',
+          active: true
+      }]);
 
 
     const resetWhenChangingPath = () => {
@@ -71,15 +99,14 @@ function App() {
         return arrCount;
     };
 
-
   return (
       <div className="App">
         <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
-                <Orders path={path} enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
-                <CustomizeMenu path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> :
+                <Orders tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
+                <CustomizeMenu tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> :
                 <Statistics enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} setTempTables={setTempTables} tempTables={tempTables} logTables={logTables}/>
         }
       </div>
