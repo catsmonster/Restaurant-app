@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background: center/cover url('../img/background.jpg') no-repeat fixed;
+  /* background: center/cover url('../img/background.jpg') no-repeat fixed; */
   backdrop-filter: blur(10px);
   min-height: 100vh;
   height: 100%;
