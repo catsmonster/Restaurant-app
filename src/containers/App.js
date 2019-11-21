@@ -27,10 +27,11 @@ function App() {
   }]);
 
 
-    const resetCategoriesState = () => {
+    const resetWhenChangingPath = () => {
         setCategoryActive(0);
         setSelectedCategory('All');
         setMenuSearch('');
+        setMenuInput({name: '', price: 0, category: ''});
     };
 
     const getRelevantOrders = (status) => {
@@ -72,7 +73,7 @@ function App() {
 
   return (
       <div className="App">
-        <Navigation setNavActive={setNavActive} navActive={navActive} resetCategoriesState={resetCategoriesState} setPath={setPath} />
+        <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
         {path === 'tables' ?
             <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
             : path.includes(`order_`) ?
