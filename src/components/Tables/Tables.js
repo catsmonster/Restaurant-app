@@ -17,7 +17,7 @@ const Tables = ({tempTables, path, setPath, setTempTables, clickCount, setClickC
                     id: clickCount,
                     orders: [],
                     total: 0,
-                    tableActive: false,
+                    tableActive: 'false',
                     timeAdded: new Date()
                 }])
 
