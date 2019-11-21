@@ -1,5 +1,5 @@
 .tableDiv {
-    background: blue;
+    background: #2278c16e;
     margin: 1%;
     font-size: 1.5rem;
     padding: 1%;
@@ -7,7 +7,7 @@
 }
 
 .activeTableDiv {
-    background: orange;
+    background: #ff5e008c;
     margin: 1%;
     font-size: 1.5rem;
     padding: 1%;
@@ -26,6 +26,7 @@
 
 .deleteBtn {
     padding: 5px 10px;
+    cursor: pointer;
 }
 
 .clickTable {
@@ -35,9 +36,24 @@
 }
 
 .eatingTableDiv {
-    background: mediumpurple;
+    background: #cf70dbb0;
     margin: 1%;
     font-size: 1.5rem;
     padding: 1%;
     box-shadow: #282c34 5px 5px 10px;
+}
+
+h2 {
+    color: white;
+}
+
+h3 {
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+span {
+    color: white;
 }

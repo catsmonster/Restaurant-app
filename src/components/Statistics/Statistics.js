@@ -1,6 +1,7 @@
 import React from 'react';
 import ToDoMenu from "../ToDoMenu/ToDoMenu";
 import Scroll from "../Scroll";
+import './Statistics.css'
 
 const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) => {
 
@@ -34,7 +35,7 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
 
 
     return (
-        <div>
+        <div className='statisticsMain'>
             <h2>To Do list:</h2>
             <div className='containerOfContainer'>
                 <h3>Waiting list:</h3>
@@ -47,7 +48,7 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
                 </Scroll>
             </div>
             <h2>Income:</h2>
-            {`The total revenue from all checked out tables is ${parseFloat(logTables.total).toFixed(2)}`}
+            <span>{`The total revenue from all checked out tables is ${parseFloat(logTables.total).toFixed(2)}`}</span>
         </div>
     );
 };

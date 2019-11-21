@@ -13,8 +13,10 @@ div.menuContainer {
     justify-content: center;
     display: flex;
     padding: 15px 30px;
-    background: steelblue;
+    background: #111111bb;
     box-shadow: 0 10px 20px;
+    color: white;
+    /*box-shadow: 0 10px 20px;*/
 }
 
 div.menuContainer :active {
@@ -27,8 +29,10 @@ div.menuContainer :active {
 
 .deleteBtn {
     border-radius: 20px;
-    border: aquamarine solid 1px;
-    background: #ffffffb0;
+    border: #00000044 solid 2px;
+    background: #ff000099;
+    color: white;
+    font-weight: bold;
 }
 
 #categoryActive {

@@ -22,7 +22,7 @@ const CustomizeMenu = ({menuInput, setMenuInput, addNewItemtoMenu, setAddNewItem
 
 
     return (
-        <div>
+        <div className='statisticsMain'>
             <h2>Here you will be able to customize your menu</h2>
             {addNewItemtoMenu ?
             <div className='addDish'>
