@@ -16,8 +16,13 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
         } else {
             const indexOfSelectedItem = tempMenu.findIndex((item) => item.name === name);
             const updateTempMenu = [...tempMenu];
-            updateTempMenu[indexOfSelectedItem].active = false;
-            setTempMenu(updateTempMenu);
+            if (updateTempMenu[indexOfSelectedItem].active === true) {
+                updateTempMenu[indexOfSelectedItem].active = false;
+                setTempMenu(updateTempMenu);
+            } else {
+                updateTempMenu[indexOfSelectedItem].active = true;
+                setTempMenu(updateTempMenu);
+            }
         }
     };
 
@@ -44,15 +49,30 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
         return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu}/>
     });
 
-    let allCategories = ['All'];
+    const menuOfSelectedCategoryHidden = menuItemsToShow(false);
+
+    const menuArrayHidden = menuOfSelectedCategoryHidden.map((item, i) => {
+        return <Menu key={menuOfSelectedCategoryHidden[i].id} id={menuOfSelectedCategoryHidden[i].id} name={menuOfSelectedCategoryHidden[i].name} price={menuOfSelectedCategoryHidden[i].price} onClickMenu={onClickMenu}/>
+    });
+
+    let allCategoriesActive = ['All'];
+    let allCategoriesHidden = ['All'];
     for (let i=0; i<tempMenu.length; i++) {
         if (tempMenu[i].active === true) {
-            allCategories.push(tempMenu[i].category)
+            allCategoriesActive.push(tempMenu[i].category)
+        } else {
+            allCategoriesHidden.push(tempMenu[i].category)
         }
     }
-    const uniqueCategories = [...new Set(allCategories)];
+    const uniqueCategoriesActive = [...new Set(allCategoriesActive)];
 
-    const categoriesArray = uniqueCategories.map((item, i) => {
+    const uniqueCategoriesHidden = [...new Set(allCategoriesHidden)];
+
+    const categoriesArray = uniqueCategoriesActive.map((item, i) => {
+        return <CategoryItem categoryActive={categoryActive} setCategoryActive={setCategoryActive} onClickCategory={onClickCategory} key={i} id={i} name={item}/>
+    });
+
+    const hiddenCategoriesArray = uniqueCategoriesHidden.map((item, i) => {
         return <CategoryItem categoryActive={categoryActive} setCategoryActive={setCategoryActive} onClickCategory={onClickCategory} key={i} id={i} name={item}/>
     });
 
@@ -67,6 +87,19 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
                     {menuArrayActive}
                 </Scroll>
             </div>
+            {path === 'customize' && hiddenCategoriesArray.length > 1 ?
+            <div>
+                <h3>Click a menu item to bring it back from the trash</h3>
+                <div className='menuArray'>
+                    <Scroll>
+                        {hiddenCategoriesArray}
+                    </Scroll>
+                    <Scroll>
+                        {menuArrayHidden}
+                    </Scroll>
+                </div>
+            </div>: <span></span>
+                }
             <div className='searchContainer'>
                 <span id='searchText'>Search menu item:</span>
                 <SearchMenu setMenuSearch={setMenuSearch}/>
