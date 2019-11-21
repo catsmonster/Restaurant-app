@@ -22,8 +22,8 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
         setSelectedCategory(name);
         setMenuSearch('');
     };
-
-    const menuOfSelectedCategory = tempMenu.filter((item) => {
+    const activeMenuItems = tempMenu.filter((item) => item.active === true);
+    const menuOfSelectedCategory = activeMenuItems.filter((item) => {
         if (selectedCategory === 'All' && !menuSearch.length > 0) {
             return item;
         } else if (menuSearch.length > 0) {
@@ -38,7 +38,9 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
 
     let allCategories = ['All'];
     for (let i=0; i<tempMenu.length; i++) {
-        allCategories.push(tempMenu[i].category)
+        if (tempMenu[i].active === true) {
+            allCategories.push(tempMenu[i].category)
+        }
     }
     const uniqueCategories = [...new Set(allCategories)];
 
