@@ -54,7 +54,8 @@ function App() {
           active: true
       }]);
 
-    const resetCategoriesState = () => {
+
+    const resetWhenChangingPath = () => {
         setCategoryActive(0);
         setSelectedCategory('All');
         setMenuSearch('');
