@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: center/cover url(img/background.jpg) no-repeat fixed;
+  backdrop-filter: blur(10px);
 }
 
 code {
