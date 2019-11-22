@@ -3,6 +3,7 @@ import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
 import Scroll from "../Scroll";
 import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
+import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 
 const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu}) => {
 
@@ -13,9 +14,14 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     const arrCount = enumerateOrders(ordersToDisplay);
 
-    const onRemoveOrderedItem = ({name}) => {
+    const onRemoveOrderedItem = ({name}, arg) => {
         const updatedTempTables = [...tempTables];
-        const orderedItemsArr = updatedTempTables[clickedTable].orders;
+        let orderedItemsArr = [];
+        if (arg === 'waiting') {
+            orderedItemsArr = updatedTempTables[clickedTable].orders.filter((order)=> (order.status === 'waiting' || order.status === 'prepared'));
+        } else if (arg === 'delivered') {
+            orderedItemsArr = updatedTempTables[clickedTable].orders.filter((order)=> (order.status === 'delivered'));
+        }
         const indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0]);
         updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         let priceOfSelectedItem = 0;
@@ -39,7 +45,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     const deliveredOrders = enumerateOrders(tempDeliveredOrders);
 
     const deliveredOrdersArr = deliveredOrders.map((item, i)=> {
-        return <RemoveMenu key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+        return <ReturnDelivered key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
     });
 
     const clearTable = () => {
