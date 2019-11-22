@@ -99,6 +99,7 @@ function App() {
         return arrCount;
     };
 
+
   return (
       <div className="App">
         <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
