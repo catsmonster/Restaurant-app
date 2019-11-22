@@ -20,10 +20,11 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         let indexOfOrderedItem = 0;
         if (arg === 'waiting') {
             indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting' || item.status === 'prepared'));
+            updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         } else if (arg === 'delivered') {
             indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && item.status === 'delivered');
+            updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         }
-        updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         let priceOfSelectedItem = 0;
         for (let i=0; i<tempMenu.length; i++)
             if (tempMenu[i].name === name[0]) {
