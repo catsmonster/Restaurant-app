@@ -65,60 +65,60 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     };
 
     const tipChangeTen = () => {
-      const updatedTempTables = [...tempTables];
-      updatedTempTables[clickedTable].total *= 1.1;
-      setTempTables(updatedTempTables);
-      logTotal();
-      clearTable();
+        const updatedTempTables = [...tempTables];
+        updatedTempTables[clickedTable].total *= 1.1;
+        setTempTables(updatedTempTables);
+        logTotal();
+        clearTable();
     };
 
-        return (
-            <div className='statisticsMain'>
-                <h1>This is da menu!</h1>
-                <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
-                <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
-                {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
-                    <div className='orderHeaders'>
-                        <h3 className='waitingHeader'>Items waiting:</h3>
-                        <h3 className='deliveredHeader'>Items delivered:</h3>
-                    </div> : selectedMenuArr.length > 0 ?
+    return (
+        <div className='statisticsMain'>
+            <h1>This is da menu!</h1>
+            <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
+            <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
+            {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
+                <div className='orderHeaders'>
+                    <h3 className='waitingHeader'>Items waiting:</h3>
+                    <h3 className='deliveredHeader'>Items delivered:</h3>
+                </div> : selectedMenuArr.length > 0 ?
                     <div className='orderHeaders'>
                         <h3 className='waitingHeader'>Items waiting:</h3>
                     </div> : deliveredOrdersArr.length > 0 ?
                         <div className='orderHeaders'>
                             <h3 className='deliveredHeader'>Items delivered:</h3>
                         </div> :
-                            <div></div>
-                }
-                    <div className='menuArrayContainer'>
-                        <div className='selectedMenu'>
-                            <Scroll>
-                                {selectedMenuArr}
-                            </Scroll>
-                        </div>
-                        <div className='selectedMenu'>
-                            <Scroll>
-                                {deliveredOrdersArr}
-                            </Scroll>
-                        </div>
-                    </div>
-                <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
-                <button className='addTable' onClick={()=> {
-                    if (ordersToDisplay.length > 0) {
-                        alert('Table has not yet received all orders!')
-                    } else {
-                        tipChange()
-                    }
-                }}>Checkout and add a custom tip</button>
-                <button className='addTable' onClick={()=> {
-                    if (ordersToDisplay.length > 0) {
-                        alert('Table has not yet received all orders!')
-                    } else {
-                        tipChangeTen()
-                    }
-                }}>Checkout and add 10% tip</button>
+                        <div></div>
+            }
+            <div className='menuArrayContainer'>
+                <div className='selectedMenu'>
+                    <Scroll>
+                        {selectedMenuArr}
+                    </Scroll>
+                </div>
+                <div className='selectedMenu'>
+                    <Scroll>
+                        {deliveredOrdersArr}
+                    </Scroll>
+                </div>
             </div>
-        );
+            <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
+            <button className='addTable' onClick={()=> {
+                if (ordersToDisplay.length > 0) {
+                    alert('Table has not yet received all orders!')
+                } else {
+                    tipChange()
+                }
+            }}>Checkout and add a custom tip</button>
+            <button className='addTable' onClick={()=> {
+                if (ordersToDisplay.length > 0) {
+                    alert('Table has not yet received all orders!')
+                } else {
+                    tipChangeTen()
+                }
+            }}>Checkout and add 10% tip</button>
+        </div>
+    );
 };
 
 export default Orders;
