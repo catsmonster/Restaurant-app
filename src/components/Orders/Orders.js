@@ -4,25 +4,30 @@ import RemoveMenu from "../RemoveMenu/RemoveMenu";
 import Scroll from "../Scroll";
 import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
+import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 
 const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu}) => {
 
 
     const waitingOrders = getRelevantOrders('waiting');
     const preparedOrders = getRelevantOrders('prepared');
-    const ordersToDisplay = waitingOrders.concat(preparedOrders);
+    const activeOrders = waitingOrders.concat(preparedOrders);
 
-    const arrCount = enumerateOrders(ordersToDisplay);
+    const arrCount = enumerateOrders(waitingOrders);
+    const prepArrCount = enumerateOrders(preparedOrders);
 
     const onRemoveOrderedItem = ({name}, arg) => {
         const updatedTempTables = [...tempTables];
         const orderedItemsArr = updatedTempTables[clickedTable].orders;
         let indexOfOrderedItem = 0;
         if (arg === 'waiting') {
-            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting' || item.status === 'prepared'));
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting'));
             updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         } else if (arg === 'delivered') {
-            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && item.status === 'delivered');
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'delivered'));
+            updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
+        } else {
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'prepared'));
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         }
         let priceOfSelectedItem = 0;
@@ -47,6 +52,10 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     const deliveredOrdersArr = deliveredOrders.map((item, i)=> {
         return <ReturnDelivered key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+    });
+
+    const preparedOrdersArr = prepArrCount.map((item, i)=> {
+        return <ReturnPrepared key={i} id={i} name={prepArrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
     });
 
     const clearTable = () => {
@@ -82,33 +91,26 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         clearTable();
     };
 
-    console.log(logTables.orders);
-
     return (
         <div className='statisticsMain'>
             <h1>This is da menu!</h1>
             <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
             <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
-            {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ?
-                <div className='orderHeaders'>
-                    <h3 className='waitingHeader'>Items waiting:</h3>
-                    <h3 className='deliveredHeader'>Items delivered:</h3>
-                </div> : selectedMenuArr.length > 0 ?
-                    <div className='orderHeaders'>
-                        <h3 className='waitingHeader'>Items waiting:</h3>
-                    </div> : deliveredOrdersArr.length > 0 ?
-                        <div className='orderHeaders'>
-                            <h3 className='deliveredHeader'>Items delivered:</h3>
-                        </div> :
-                        <div></div>
-            }
             <div className='menuArrayContainer'>
                 <div className='selectedMenu'>
+                    <h3>Waiting orders:</h3>
                     <Scroll>
                         {selectedMenuArr}
                     </Scroll>
                 </div>
                 <div className='selectedMenu'>
+                    <h3>Ready for delivery:</h3>
+                    <Scroll>
+                        {preparedOrdersArr}
+                    </Scroll>
+                </div>
+                <div className='selectedMenu'>
+                    <h3>Orders delivered:</h3>
                     <Scroll>
                         {deliveredOrdersArr}
                     </Scroll>
@@ -116,14 +118,14 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             </div>
             <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
             <button className='addTable' onClick={()=> {
-                if (ordersToDisplay.length > 0) {
+                if (activeOrders.length > 0) {
                     alert('Table has not yet received all orders!')
                 } else {
                     tipChange()
                 }
             }}>Checkout and add a custom tip</button>
             <button className='addTable' onClick={()=> {
-                if (ordersToDisplay.length > 0) {
+                if (activeOrders.length > 0) {
                     alert('Table has not yet received all orders!')
                 } else {
                     tipChangeTen()
