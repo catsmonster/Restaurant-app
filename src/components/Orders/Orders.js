@@ -57,8 +57,11 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     const logTotal = () => {
         const totalWithTip = tempTables[clickedTable].total;
+        const returnedItems = tempTables[clickedTable].orders.filter((order)=> order.status === 'returned');
         const updatedLogTables = {...logTables};
         updatedLogTables.total = logTables.total + totalWithTip;
+        updatedLogTables.orders.push(returnedItems);
+        updatedLogTables.orders.flat(1);
         setLogTables(updatedLogTables);
     };
 
@@ -78,6 +81,8 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         logTotal();
         clearTable();
     };
+
+    console.log(logTables.orders);
 
     return (
         <div className='statisticsMain'>
