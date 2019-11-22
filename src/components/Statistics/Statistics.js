@@ -14,7 +14,7 @@ const Statistics = ({logTables, tempTables, setTempTables, getRelevantOrders}) =
       } else {
           updateTempTables[table].orders[indexOfSelectedOrder].status = 'delivered';
           const ordersDelivered = updateTempTables[table].orders.filter((order) => order.status === 'delivered');
-          if (ordersDelivered.length === updateTempTables[table].orders.length) {
+          if (ordersDelivered.length === updateTempTables[table].orders.filter((order)=> order.status !== 'returned').length) {
               updateTempTables[table].tableActive = 'eating';
           }
       }
