@@ -71,48 +71,33 @@ function App() {
   };
 
   const getRelevantOrders = status => {
-    let tempWaitingOrders = [];
+    let relevantOrdersPerTable = [];
     if (path === 'Statistics') {
       for (let i = 0; i < tempTables.length; i++) {
-        tempWaitingOrders.push(
+        relevantOrdersPerTable.push(
           tempTables[i].orders.filter(order => order.status === status)
         );
       }
     } else if (path.includes('order_')) {
-      tempWaitingOrders.push(
+      relevantOrdersPerTable.push(
         tempTables[clickedTable].orders.filter(order => order.status === status)
       );
     }
 
-    const waitingOrders = tempWaitingOrders.flat(1);
-
-    waitingOrders.sort((a, b) => a.time.getTime() - b.time.getTime());
-
-    let ordersDetailsArray = [];
-    for (let i = 0; i < waitingOrders.length; i++) {
-      ordersDetailsArray.push([
-        waitingOrders[i].name,
-        waitingOrders[i].table,
-        waitingOrders[i].time.getTime(),
-        waitingOrders[i].status
-      ]);
-    }
-    return ordersDetailsArray;
+    const relevantOrders = relevantOrdersPerTable.flat(1);
+    relevantOrders.sort((a, b) => a.time.getTime() - b.time.getTime());
+    return relevantOrders;
   };
 
-  const enumerateOrders = relevantOrders => {
-    let orderNamesArr = [];
-    for (let i = 0; i < relevantOrders.length; i++) {
-      orderNamesArr.push(relevantOrders[i][0]);
-    }
-
-    let count = {};
-    orderNamesArr.forEach(i => {
-      count[i] = (count[i] || 0) + 1;
-    });
-    let arrCount = Object.entries(count);
-    arrCount.sort();
-    return arrCount;
+  // Maps order name to array of orders e.g. { "salad": [...], "soup": [...]}
+  const groupOrdersByName = relevantOrders => {
+    return relevantOrders.reduce((ordersGroupedByName, order) => {
+      const orderName = order.name;
+      ordersGroupedByName[orderName] = (
+        ordersGroupedByName[orderName] || []
+      ).concat(order);
+      return ordersGroupedByName;
+    }, {});
   };
 
   return (
@@ -139,7 +124,7 @@ function App() {
           tempMenu={tempMenu}
           setTempMenu={setTempMenu}
           path={path}
-          enumerateOrders={enumerateOrders}
+          groupOrdersByName={groupOrdersByName}
           getRelevantOrders={getRelevantOrders}
           categoryActive={categoryActive}
           setCategoryActive={setCategoryActive}
@@ -174,7 +159,6 @@ function App() {
         />
       ) : (
         <Statistics
-          enumerateOrders={enumerateOrders}
           getRelevantOrders={getRelevantOrders}
           setTempTables={setTempTables}
           tempTables={tempTables}

@@ -18,7 +18,7 @@ const Orders = ({
   categoryActive,
   setCategoryActive,
   getRelevantOrders,
-  enumerateOrders,
+  groupOrdersByName,
   tempMenu,
   setTempMenu
 }) => {
@@ -26,18 +26,18 @@ const Orders = ({
   const preparedOrders = getRelevantOrders('prepared');
   const ordersToDisplay = waitingOrders.concat(preparedOrders);
 
-  const arrCount = enumerateOrders(ordersToDisplay);
-
-  const onRemoveOrderedItem = ({ name }) => {
+  // status: Array of statuses to consider
+  // order: {name: string, count: number}
+  const onRemoveOrderedItem = status => orders => {
     const updatedTempTables = [...tempTables];
     const orderedItemsArr = updatedTempTables[clickedTable].orders;
     const indexOfOrderedItem = orderedItemsArr.findIndex(
-      item => item.name === name[0]
+      item => item.name === orders.name && status.includes(item.status)
     );
     updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
     let priceOfSelectedItem = 0;
     for (let i = 0; i < tempMenu.length; i++)
-      if (tempMenu[i].name === name[0]) {
+      if (tempMenu[i].name === orders.name) {
         priceOfSelectedItem = tempMenu[i].price;
       }
     updatedTempTables[clickedTable].total -= priceOfSelectedItem;
@@ -48,30 +48,29 @@ const Orders = ({
     setTempTables(updatedTempTables);
   };
 
-  const selectedMenuArr = arrCount.map((item, i) => {
-    return (
+  const getMenuFromGroupedOrders = (ordersGroupedByName, status) => {
+    return Object.keys(ordersGroupedByName).map(name => (
       <RemoveMenu
-        key={i}
-        id={i}
-        name={arrCount[i]}
-        onRemoveOrderedItem={onRemoveOrderedItem}
+        key={name}
+        id={name}
+        order={{ name, count: ordersGroupedByName[name].length }}
+        onRemoveOrderedItem={onRemoveOrderedItem(status)}
       />
-    );
-  });
+    ));
+  };
+
+  const ordersGroupedByName = groupOrdersByName(ordersToDisplay);
+  const selectedMenu = getMenuFromGroupedOrders(ordersGroupedByName, [
+    'waiting',
+    'prepared'
+  ]);
 
   const tempDeliveredOrders = getRelevantOrders('delivered');
-  const deliveredOrders = enumerateOrders(tempDeliveredOrders);
-
-  const deliveredOrdersArr = deliveredOrders.map((item, i) => {
-    return (
-      <RemoveMenu
-        key={i}
-        id={i}
-        name={deliveredOrders[i]}
-        onRemoveOrderedItem={onRemoveOrderedItem}
-      />
-    );
-  });
+  const deliveredOrdersGroupedByName = groupOrdersByName(tempDeliveredOrders);
+  const deliveredOrders = getMenuFromGroupedOrders(
+    deliveredOrdersGroupedByName,
+    ['delivered']
+  );
 
   const clearTable = () => {
     const updatedTempTable = [...tempTables];
@@ -128,16 +127,16 @@ const Orders = ({
       />
       <h1>{`Table ${tempTables[clickedTable].id +
         1} ordered the following items:`}</h1>
-      {selectedMenuArr.length > 0 && deliveredOrdersArr.length > 0 ? (
+      {selectedMenu.length > 0 && deliveredOrders.length > 0 ? (
         <div className="orderHeaders">
           <h3 className="waitingHeader">Items waiting:</h3>
           <h3 className="deliveredHeader">Items delivered:</h3>
         </div>
-      ) : selectedMenuArr.length > 0 ? (
+      ) : selectedMenu.length > 0 ? (
         <div className="orderHeaders">
           <h3 className="waitingHeader">Items waiting:</h3>
         </div>
-      ) : deliveredOrdersArr.length > 0 ? (
+      ) : deliveredOrders.length > 0 ? (
         <div className="orderHeaders">
           <h3 className="deliveredHeader">Items delivered:</h3>
         </div>
@@ -146,10 +145,10 @@ const Orders = ({
       )}
       <div className="menuArrayContainer">
         <div className="selectedMenu">
-          <Scroll>{selectedMenuArr}</Scroll>
+          <Scroll>{selectedMenu}</Scroll>
         </div>
         <div className="selectedMenu">
-          <Scroll>{deliveredOrdersArr}</Scroll>
+          <Scroll>{deliveredOrders}</Scroll>
         </div>
       </div>
       <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
