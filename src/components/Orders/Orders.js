@@ -16,13 +16,13 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     const onRemoveOrderedItem = ({name}, arg) => {
         const updatedTempTables = [...tempTables];
-        let orderedItemsArr = [];
+        const orderedItemsArr = updatedTempTables[clickedTable].orders;
+        let indexOfOrderedItem = 0;
         if (arg === 'waiting') {
-            orderedItemsArr = updatedTempTables[clickedTable].orders.filter((order)=> (order.status === 'waiting' || order.status === 'prepared'));
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting' || item.status === 'prepared'));
         } else if (arg === 'delivered') {
-            orderedItemsArr = updatedTempTables[clickedTable].orders.filter((order)=> (order.status === 'delivered'));
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && item.status === 'delivered');
         }
-        const indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0]);
         updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         let priceOfSelectedItem = 0;
         for (let i=0; i<tempMenu.length; i++)
