@@ -10,7 +10,7 @@ const DeleteBtn = ({tempTables, setTempTables, id, setClickCount, clickCount}) =
             }
             setTempTables(updatedTempTables);
             setClickCount(clickCount - 1);
-        }}>X</button>
+        }}></button>
         </div>
     );
 };

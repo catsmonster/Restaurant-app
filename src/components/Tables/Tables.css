@@ -1,6 +1,9 @@
 .addTable {
     padding: 10px;
-    border: aqua solid 1px;
-    background: #ffffffb0;
+    /* border: aqua solid 1px; */
+    background: linear-gradient(#a3a3a3b0, #ffffffb0, #a3a3a3b0);
+    border-style: outset;
     border-radius: 25px;
+    margin: 10px 0px;
+    font-weight: bold;
 }
