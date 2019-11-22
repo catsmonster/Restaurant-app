@@ -1,6 +1,1 @@
-export const tempTables = [
-    {   id: 0,
-        orders: [],
-        total: 0
-    }
-];
+export const tempTables = [{ id: 0, orders: [], total: 0 }];
