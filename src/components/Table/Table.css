@@ -24,11 +24,6 @@
     justify-content: flex-end;
 }
 
-.deleteBtn {
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
 .clickTable {
     cursor: pointer;
     user-select: none;
