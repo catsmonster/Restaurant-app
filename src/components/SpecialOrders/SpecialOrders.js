@@ -1,11 +1,11 @@
 import React from 'react';
 
-const SpecialOrders = ({name, comment, time, clickSpecialItem, setClickSpecialItem}) => {
+const SpecialOrders = ({name, comment, time, status, price, clickSpecialItem, setClickSpecialItem, onRemoveSpecialItem}) => {
 
 
     const initialState = (
         <div>
-            <button className='deleteBtn' onClick={()=> null}></button>
+            <button className='deleteBtn' onClick={()=> onRemoveSpecialItem({time, status, price})}></button>
             <span>{name}</span>
             {clickSpecialItem === time ?
                 <button onClick={() => setClickSpecialItem('false')}>Hide info</button> :
@@ -15,7 +15,6 @@ const SpecialOrders = ({name, comment, time, clickSpecialItem, setClickSpecialIt
     );
 
     const commentsString = comment.join(', ');
-
 
     return (
         <div className='foodContainer'>

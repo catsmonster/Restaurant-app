@@ -66,7 +66,9 @@ function App() {
         setMenuSearch('');
         setMenuInput({name: '', price: 0, category: ''});
         setAddNewItemtoMenu(false);
-        setClickMenuItem(clickMenuItem.status = 'false');
+        const updatedClickMenuItem = {...clickMenuItem};
+        updatedClickMenuItem.status = 'false';
+        setClickMenuItem(updatedClickMenuItem);
     };
 
     const getRelevantOrders = (status, special) => {
@@ -87,11 +89,11 @@ function App() {
 
         const waitingOrders = tempWaitingOrders.flat(1);
 
-        waitingOrders.sort((a,b)=>a.time.getTime() - b.time.getTime());
+        waitingOrders.sort((a,b)=>b.time.getTime() - a.time.getTime());
 
         let ordersDetailsArray = [];
         for (let i=0; i<waitingOrders.length; i++) {
-            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status, waitingOrders[i].comments]);
+            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status, waitingOrders[i].comments, waitingOrders[i].price]);
         }
         return ordersDetailsArray;
     };

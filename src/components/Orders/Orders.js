@@ -41,8 +41,30 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             if (tempMenu[i].name === name[0]) {
                 priceOfSelectedItem = tempMenu[i].price;
             }
-        updatedTempTables[clickedTable].total -= priceOfSelectedItem;
-        if (updatedTempTables[clickedTable].total === 0) {
+        decrementPriceFromTable(priceOfSelectedItem);
+        setTempTables(updatedTempTables);
+    };
+
+    const onRemoveSpecialItem = ({time, status, price}) => {
+        const updatedTempTables = [...tempTables];
+        const orderedItemsArr = updatedTempTables[clickedTable].orders;
+        let indexOfOrderedItem = 0;
+        if (status === 'waiting') {
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.time.getTime() === time);
+            updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
+        } else {
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.time.getTime() === time);
+            updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
+        }
+        decrementPriceFromTable(price);
+        setTempTables(updatedTempTables);
+
+    };
+
+    const decrementPriceFromTable = (price) => {
+        const updatedTempTables = [...tempTables];
+        updatedTempTables[clickedTable].total -= price;
+        if (updatedTempTables[clickedTable].total === 0 && updatedTempTables[clickedTable].orders.length === 0) {
             updatedTempTables[clickedTable].tableActive = 'false';
             updatedTempTables[clickedTable].timeAdded = new Date();
         }
@@ -65,15 +87,15 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     });
 
     const waitingSpecialOrdersArr = specialWaitingOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialWaitingOrders[i][0]} time={specialWaitingOrders[i][2]} comment={specialWaitingOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
+        return <SpecialOrders key={i} id={i} name={specialWaitingOrders[i][0]} time={specialWaitingOrders[i][2]} status={specialWaitingOrders[i][3]} comment={specialWaitingOrders[i][4]} price={specialWaitingOrders[i][5]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onRemoveSpecialItem={onRemoveSpecialItem}/>
     });
 
     const preparedSpecialOrdersArr = specialPreparedOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialPreparedOrders[i][0]} time={specialPreparedOrders[i][2]} comment={specialPreparedOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
+        return <SpecialOrders key={i} id={i} name={specialPreparedOrders[i][0]} time={specialPreparedOrders[i][2]} status={specialPreparedOrders[i][3]} comment={specialPreparedOrders[i][4]} price={specialPreparedOrders[i][5]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onRemoveSpecialItem={onRemoveSpecialItem}/>
     });
 
     const deliveredSpecialOrdersArr = specialDeliveredOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialDeliveredOrders[i][0]} time={specialDeliveredOrders[i][2]} comment={specialDeliveredOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
+        return <SpecialOrders key={i} id={i} name={specialDeliveredOrders[i][0]} time={specialDeliveredOrders[i][2]} status={specialDeliveredOrders[i][3]} comment={specialDeliveredOrders[i][4]} price={specialDeliveredOrders[i][5]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onRemoveSpecialItem={onRemoveSpecialItem}/>
     });
 
 
