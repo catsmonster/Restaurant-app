@@ -7,13 +7,12 @@ const Menu = ({name, price, onClickMenu, clickMenuItem, setClickMenuItem}) => {
         const updatedClickMenuItem = {...clickMenuItem};
         if (source === 'clickMenu') {
             updatedClickMenuItem.status = name;
-            setClickMenuItem(updatedClickMenuItem);
         } else {
             updatedClickMenuItem.id = source;
             updatedClickMenuItem.status = 'false';
-            setClickMenuItem(updatedClickMenuItem);
-            onClickMenu({name, price});
+            setTimeout(onClickMenu({name, price}), 0);
         }
+        setClickMenuItem(updatedClickMenuItem);
     };
 
     const initialMenu =
