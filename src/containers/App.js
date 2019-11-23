@@ -5,6 +5,8 @@ import Tables from "../components/Tables/Tables";
 import Orders from "../components/Orders/Orders";
 import Statistics from "../components/Statistics/Statistics";
 import CustomizeMenu from "../components/CustomizeMenu/CustomizeMenu";
+import KitchenStuff from "../components/KitchenStuff/KitchenStuff";
+import Waiters from "../components/Waiters/Waiters";
 
 function App() {
     /*const [tables, setTables] = useState([]);*/
@@ -66,7 +68,7 @@ function App() {
 
     const getRelevantOrders = (status) => {
         let tempWaitingOrders = [];
-        if (path === 'Statistics') {
+        if (path === 'waiters' || path === 'kitchen') {
             for (let i=0; i<tempTables.length; i++) {
                 tempWaitingOrders.push(tempTables[i].orders.filter((order) => order.status === status));
             }
@@ -100,6 +102,21 @@ function App() {
         return arrCount;
     };
 
+    const onSetDone = ({time, table, status}) => {
+        const updateTempTables = [...tempTables];
+        const indexOfSelectedOrder = updateTempTables[table].orders.findIndex((order) => order.time.getTime() === time);
+        if (status === 'waiting') {
+            updateTempTables[table].orders[indexOfSelectedOrder].status = 'prepared';
+        } else {
+            updateTempTables[table].orders[indexOfSelectedOrder].status = 'delivered';
+            const ordersDelivered = updateTempTables[table].orders.filter((order) => order.status === 'delivered');
+            if (ordersDelivered.length === updateTempTables[table].orders.filter((order)=> order.status !== 'returned').length) {
+                updateTempTables[table].tableActive = 'eating';
+            }
+        }
+        setTempTables(updateTempTables);
+    };
+
     return (
         <div className="App">
             <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
@@ -107,8 +124,10 @@ function App() {
                 <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
                 : path.includes(`order_`) ?
                     <Orders clickedOnDelivered={clickedOnDelivered} setClickedOnDelivered={setClickedOnDelivered} tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
-                        <CustomizeMenu tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> :
-                        <Statistics enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} setTempTables={setTempTables} tempTables={tempTables} logTables={logTables}/>
+                        <CustomizeMenu tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> : path === 'Statistics' ?
+                        <Statistics onSetDone={onSetDone} getRelevantOrders={getRelevantOrders} logTables={logTables}/> : path === 'kitchen' ?
+                        <KitchenStuff onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/> :
+                        <Waiters onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/>
             }
         </div>
     );
