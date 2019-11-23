@@ -8,9 +8,8 @@ const Menu = ({name, price, onClickMenu, clickMenuItem, setClickMenuItem}) => {
         if (source === 'clickMenu') {
             updatedClickMenuItem.status = name;
         } else {
-            updatedClickMenuItem.id = source;
             updatedClickMenuItem.status = 'false';
-            setTimeout(onClickMenu({name, price}), 0);
+            onClickMenu({name, price, source});
         }
         setClickMenuItem(updatedClickMenuItem);
     };

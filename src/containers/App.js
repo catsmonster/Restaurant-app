@@ -67,14 +67,20 @@ function App() {
         setAddNewItemtoMenu(false);
     };
 
-    const getRelevantOrders = (status) => {
+    const getRelevantOrders = (status, special) => {
         let tempWaitingOrders = [];
         if (path === 'waiters' || path === 'kitchen') {
             for (let i=0; i<tempTables.length; i++) {
                 tempWaitingOrders.push(tempTables[i].orders.filter((order) => order.status === status));
             }
         } else if (path.includes('order_')) {
-            tempWaitingOrders.push(tempTables[clickedTable].orders.filter((order) => order.status === status));
+            const normalOrders = tempTables[clickedTable].orders.filter((order) => order.status === status && (order.comments.length === 0));
+            const customOrders = tempTables[clickedTable].orders.filter((order)=> order.status === status && order.comments.length > 0);
+            if (special) {
+                tempWaitingOrders.push(customOrders);
+            } else {
+                tempWaitingOrders.push(normalOrders);
+            }
         }
 
         const waitingOrders = tempWaitingOrders.flat(1);

@@ -5,13 +5,19 @@ import Scroll from "../Scroll";
 import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
+import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
 const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
 
 
-    const waitingOrders = getRelevantOrders('waiting');
-    const preparedOrders = getRelevantOrders('prepared');
+    const waitingOrders = getRelevantOrders('waiting', false);
+    const preparedOrders = getRelevantOrders('prepared', false);
     const activeOrders = waitingOrders.concat(preparedOrders);
+
+    const specialWaitingOrders = getRelevantOrders('waiting', true);
+    const specialPreparedOrders = getRelevantOrders('prepared', true);
+    const specialDeliveredOrders = getRelevantOrders('delivered', true);
+
 
     const arrCount = enumerateOrders(waitingOrders);
     const prepArrCount = enumerateOrders(preparedOrders);
@@ -47,7 +53,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
     });
 
-    const tempDeliveredOrders = getRelevantOrders('delivered');
+    const tempDeliveredOrders = getRelevantOrders('delivered', false);
     const deliveredOrders = enumerateOrders(tempDeliveredOrders);
 
     const deliveredOrdersArr = deliveredOrders.map((item, i)=> {
@@ -57,6 +63,19 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     const preparedOrdersArr = prepArrCount.map((item, i)=> {
         return <ReturnPrepared key={i} id={i} name={prepArrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
     });
+
+    const waitingSpecialOrdersArr = specialWaitingOrders.map((item, i)=> {
+        return <SpecialOrders key={i} id={i} name={specialWaitingOrders[i][0]} comment={specialWaitingOrders[i][4]} />
+    });
+
+    const preparedSpecialOrdersArr = specialPreparedOrders.map((item, i)=> {
+        return <SpecialOrders key={i} id={i} name={specialPreparedOrders[i][0]} comment={specialPreparedOrders[i][4]} />
+    });
+
+    const deliveredSpecialOrdersArr = specialDeliveredOrders.map((item, i)=> {
+        return <SpecialOrders key={i} id={i} name={specialDeliveredOrders[i][0]} comment={specialDeliveredOrders[i][4]} />
+    });
+
 
     const clearTable = () => {
         const updatedTempTable = [...tempTables];
@@ -100,18 +119,21 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                     <h3>Waiting orders:</h3>
                     <Scroll>
                         {selectedMenuArr}
+                        {waitingSpecialOrdersArr}
                     </Scroll>
                 </div>
                 <div className='selectedMenu'>
                     <h3>Ready for delivery:</h3>
                     <Scroll>
                         {preparedOrdersArr}
+                        {preparedSpecialOrdersArr}
                     </Scroll>
                 </div>
                 <div className='selectedMenu'>
                     <h3>Orders delivered:</h3>
                     <Scroll>
                         {deliveredOrdersArr}
+                        {deliveredSpecialOrdersArr}
                     </Scroll>
                 </div>
             </div>
