@@ -6,7 +6,7 @@ import CategoriesWithMenu from "../Menu/CategoriesWithMenu";
 import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
 
 
     const waitingOrders = getRelevantOrders('waiting');
@@ -93,7 +93,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     return (
         <div className='statisticsMain'>
             <h1>This is da menu!</h1>
-            <CategoriesWithMenu setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
+            <CategoriesWithMenu clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
             <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
             <div className='menuArrayContainer'>
                 <div className='selectedMenu'>

@@ -4,13 +4,18 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import Scroll from "../Scroll";
 import SearchMenu from "../SearchMenu/SearchMenu";
 
-const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setSelectedCategory, setMenuSearch, menuSearch, selectedCategory, categoryActive, setCategoryActive, tempMenu, setTempMenu}) => {
+const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setSelectedCategory, setMenuSearch, menuSearch, selectedCategory, categoryActive, setCategoryActive, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
     const onClickMenu = ({name, price}) => {
-
         if (path.includes('order_')) {
             const updatedTempTables = [...tempTables];
-            updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: []});
-            updatedTempTables[clickedTable].total += price;
+            if (clickMenuItem.id === 'add') {
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: []});
+                updatedTempTables[clickedTable].total += price;
+            } else if (clickMenuItem.id === 'addComment') {
+                const commentInput = prompt('Enter your custom comment:');
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [commentInput]});
+                updatedTempTables[clickedTable].total += price;
+            }
             updatedTempTables[clickedTable].tableActive = 'waiting';
             setTempTables(updatedTempTables);
         } else {
@@ -46,7 +51,7 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
     const menuOfSelectedCategoryActive = menuItemsToShow(true);
 
     const menuArrayActive = menuOfSelectedCategoryActive.map((item, i) => {
-        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu}/>
+        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem}/>
     });
 
     const menuOfSelectedCategoryHidden = menuItemsToShow(false);
