@@ -70,7 +70,6 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         const updatedLogTables = {...logTables};
         updatedLogTables.total = logTables.total + totalWithTip;
         updatedLogTables.orders.push(returnedItems);
-        updatedLogTables.orders.flat(1);
         setLogTables(updatedLogTables);
     };
 

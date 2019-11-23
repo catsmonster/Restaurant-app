@@ -8,8 +8,9 @@ const ToDoMenu = ({name, onSetDone, time, table, status}) => {
                 {`Order ${name} of table ${table+1}`}
             </span>
             {status === 'waiting' ?
-                <button className='addTable' onClick={() => onSetDone({time, table, status})}>Prepared</button> :
-                <button className='addTable' onClick={() => onSetDone({time, table, status})}>Delivered</button>
+                <button className='addTable' onClick={() => onSetDone({time, table, status})}>Prepared</button> : status === 'prepared' ?
+                <button className='addTable' onClick={() => onSetDone({time, table, status})}>Delivered</button> :
+                <span></span>
             }
         </div>
     );

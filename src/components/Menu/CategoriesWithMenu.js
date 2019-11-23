@@ -9,7 +9,7 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
 
         if (path.includes('order_')) {
             const updatedTempTables = [...tempTables];
-            updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable});
+            updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: []});
             updatedTempTables[clickedTable].total += price;
             updatedTempTables[clickedTable].tableActive = 'waiting';
             setTempTables(updatedTempTables);

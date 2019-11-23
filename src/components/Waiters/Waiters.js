@@ -7,7 +7,7 @@ const Waiters = ({getRelevantOrders, onSetDone}) => {
     const deliveredArray = getRelevantOrders('prepared');
 
     const deliveredMenuArr = deliveredArray.map((item, i)=> {
-        return <ToDoMenu key={i} id={i} name={deliveredArray[i][0]} table={deliveredArray[i][1]} time={deliveredArray[i][2]} onSetDone={onSetDone} />
+        return <ToDoMenu key={i} id={i} name={deliveredArray[i][0]} table={deliveredArray[i][1]} time={deliveredArray[i][2]} status={deliveredArray[i][3]} onSetDone={onSetDone} />
     });
 
     return (

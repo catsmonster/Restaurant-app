@@ -82,7 +82,7 @@ function App() {
 
         let ordersDetailsArray = [];
         for (let i=0; i<waitingOrders.length; i++) {
-            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status]);
+            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status, waitingOrders[i].comments]);
         }
         return ordersDetailsArray;
     };
