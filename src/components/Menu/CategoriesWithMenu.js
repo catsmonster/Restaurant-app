@@ -17,7 +17,7 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
                 updatedTempTables[clickedTable].total += price;
             } else if (source === 'addCustom') {
                 const priceInput = Number(prompt('Enter your custom price:'));
-                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: ['custom price']});
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`]});
                 updatedTempTables[clickedTable].total += priceInput;
             } else if (source === 'addCustomComment') {
                 const priceInput = Number(prompt('Enter your custom price:'));
@@ -60,7 +60,7 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
     const menuOfSelectedCategoryActive = menuItemsToShow(true);
 
     const menuArrayActive = menuOfSelectedCategoryActive.map((item, i) => {
-        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem}/>
+        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} path={path}/>
     });
 
     const menuOfSelectedCategoryHidden = menuItemsToShow(false);

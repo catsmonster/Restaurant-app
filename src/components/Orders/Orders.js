@@ -7,7 +7,7 @@ import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem}) => {
 
 
     const waitingOrders = getRelevantOrders('waiting', false);
@@ -22,18 +22,18 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     const arrCount = enumerateOrders(waitingOrders);
     const prepArrCount = enumerateOrders(preparedOrders);
 
-    const onRemoveOrderedItem = ({name}, arg) => {
+    const onRemoveOrderedItem = ({name}, status) => {
         const updatedTempTables = [...tempTables];
         const orderedItemsArr = updatedTempTables[clickedTable].orders;
         let indexOfOrderedItem = 0;
-        if (arg === 'waiting') {
-            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting'));
+        if (status === 'waiting') {
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting') && (item.comments.length === 0));
             updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
-        } else if (arg === 'delivered') {
-            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'delivered'));
+        } else if (status === 'delivered') {
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'delivered') && (item.comments.length === 0));
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         } else {
-            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'prepared'));
+            indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'prepared') && (item.comments.length === 0));
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         }
         let priceOfSelectedItem = 0;
@@ -65,15 +65,15 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     });
 
     const waitingSpecialOrdersArr = specialWaitingOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialWaitingOrders[i][0]} comment={specialWaitingOrders[i][4]} />
+        return <SpecialOrders key={i} id={i} name={specialWaitingOrders[i][0]} time={specialWaitingOrders[i][2]} comment={specialWaitingOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
     });
 
     const preparedSpecialOrdersArr = specialPreparedOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialPreparedOrders[i][0]} comment={specialPreparedOrders[i][4]} />
+        return <SpecialOrders key={i} id={i} name={specialPreparedOrders[i][0]} time={specialPreparedOrders[i][2]} comment={specialPreparedOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
     });
 
     const deliveredSpecialOrdersArr = specialDeliveredOrders.map((item, i)=> {
-        return <SpecialOrders key={i} id={i} name={specialDeliveredOrders[i][0]} comment={specialDeliveredOrders[i][4]} />
+        return <SpecialOrders key={i} id={i} name={specialDeliveredOrders[i][0]} time={specialDeliveredOrders[i][2]} comment={specialDeliveredOrders[i][4]} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
     });
 
 
