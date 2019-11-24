@@ -83,6 +83,15 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
                     category: updateTempMenu[indexOfSelectedItem].category,
                     active: true
                 });
+            } else if (source === 'updateCategory') {
+                let inputCategory = prompt('Please provide a category name');
+                if (inputCategory) {
+                    if (inputCategory.length > 0) {
+                        updateTempMenu[indexOfSelectedItem].category = inputCategory.toLowerCase();
+                    }
+                } else {
+                    return;
+                }
             }
             setTempMenu(updateTempMenu);
         }
