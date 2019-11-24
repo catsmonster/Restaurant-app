@@ -5,6 +5,8 @@
     /*padding: 10px 0 20px 10px;*/
     background: #ffffffbb;
     font-weight: bold;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .NavLi {
@@ -18,4 +20,36 @@
 .navActive {
     background-color: #000000aa;
     color: white;
+}
+
+.burgerContainer {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.burgerPosition {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 20px;
+    padding-top: 20px;
 }

@@ -23,6 +23,7 @@ function App() {
     const [clickedOnDelivered, setClickedOnDelivered] = useState(false);
     const [clickMenuItem, setClickMenuItem] = useState({status: 'false'});
     const [clickSpecialItem, setClickSpecialItem] = useState('false');
+    const [openNav, setOpenNav] = useState({status: false, change: ''});
     const [tempTables, setTempTables] = useState([{
         id: 0,
         orders: [],
@@ -131,7 +132,7 @@ function App() {
 
     return (
         <div className="App">
-            <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
+            <Navigation openNav={openNav} setOpenNav={setOpenNav} setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
             {path === 'tables' ?
                 <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
                 : path.includes(`order_`) ?
