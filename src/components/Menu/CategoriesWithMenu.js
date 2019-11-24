@@ -13,17 +13,29 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
                 updatedTempTables[clickedTable].total += price;
             } else if (source === 'addComment') {
                 const commentInput = prompt('Enter your custom comment:');
-                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [commentInput], price: price});
-                updatedTempTables[clickedTable].total += price;
+                if (commentInput) {
+                    updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [commentInput], price: price});
+                    updatedTempTables[clickedTable].total += price;
+                } else {
+                    return;
+                }
             } else if (source === 'addCustom') {
-                const priceInput = Number(prompt('Enter your custom price:'));
-                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`], price: priceInput});
-                updatedTempTables[clickedTable].total += priceInput;
+                const priceInput = prompt('Enter your custom price:');
+                if (priceInput && !isNaN(Number(priceInput))) {
+                    updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`], price: priceInput});
+                    updatedTempTables[clickedTable].total += Number(priceInput);
+                } else {
+                    return;
+                }
             } else if (source === 'addCustomComment') {
-                const priceInput = Number(prompt('Enter your custom price:'));
+                const priceInput = prompt('Enter your custom price:');
                 const commentInput = prompt('Enter your custom comment:');
-                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`, commentInput], price: priceInput});
-                updatedTempTables[clickedTable].total += priceInput;
+                if (priceInput && commentInput && !isNaN(Number(priceInput))) {
+                    updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`, commentInput], price: priceInput});
+                    updatedTempTables[clickedTable].total += Number(priceInput);
+                } else {
+                    return;
+                }
             }
             updatedTempTables[clickedTable].tableActive = 'waiting';
             setTempTables(updatedTempTables);

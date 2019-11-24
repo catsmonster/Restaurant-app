@@ -4,7 +4,6 @@ ul {
 
 .menuItem {
     justify-content: center;
-    cursor: pointer;
     user-select: none;
     text-transform: capitalize;
 }
@@ -18,9 +17,6 @@ div.menuContainer {
     color: white;
 }
 
-div.menuContainer :active {
-    transform: translate(0px, 3px);
-}
 
 .menuContainer li, span {
     font-size: 1.2rem;
