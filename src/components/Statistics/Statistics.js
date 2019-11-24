@@ -3,13 +3,13 @@ import './Statistics.css'
 import ToDoMenu from "../ToDoMenu/ToDoMenu";
 import Scroll from "../Scroll";
 
-const Statistics = ({logTables}) => {
+const Statistics = ({logTables, clickSpecialItem, setClickSpecialItem}) => {
 
     const logOrdersArray = logTables.orders.flat(Infinity);
 
     const returnedItems = logOrdersArray.map((order, i) => {
         return <ToDoMenu key={i} id={i} name={logOrdersArray[i].name} table={logOrdersArray[i].table} time={logOrdersArray[i].time.getTime()}
-                         status={logOrdersArray[i].status} />
+                         status={logOrdersArray[i].status} comment={logOrdersArray[i].comments} clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} />
     });
 
     return (

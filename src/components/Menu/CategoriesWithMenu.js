@@ -4,13 +4,27 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import Scroll from "../Scroll";
 import SearchMenu from "../SearchMenu/SearchMenu";
 
-const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setSelectedCategory, setMenuSearch, menuSearch, selectedCategory, categoryActive, setCategoryActive, tempMenu, setTempMenu}) => {
-    const onClickMenu = ({name, price}) => {
-
+const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setSelectedCategory, setMenuSearch, menuSearch, selectedCategory, categoryActive, setCategoryActive, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
+    const onClickMenu = ({name, price, source}) => {
         if (path.includes('order_')) {
             const updatedTempTables = [...tempTables];
-            updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: []});
-            updatedTempTables[clickedTable].total += price;
+            if (source === 'add') {
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [], price: price});
+                updatedTempTables[clickedTable].total += price;
+            } else if (source === 'addComment') {
+                const commentInput = prompt('Enter your custom comment:');
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [commentInput], price: price});
+                updatedTempTables[clickedTable].total += price;
+            } else if (source === 'addCustom') {
+                const priceInput = Number(prompt('Enter your custom price:'));
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`], price: priceInput});
+                updatedTempTables[clickedTable].total += priceInput;
+            } else if (source === 'addCustomComment') {
+                const priceInput = Number(prompt('Enter your custom price:'));
+                const commentInput = prompt('Enter your custom comment:');
+                updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`, commentInput], price: priceInput});
+                updatedTempTables[clickedTable].total += priceInput;
+            }
             updatedTempTables[clickedTable].tableActive = 'waiting';
             setTempTables(updatedTempTables);
         } else {
@@ -46,7 +60,7 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
     const menuOfSelectedCategoryActive = menuItemsToShow(true);
 
     const menuArrayActive = menuOfSelectedCategoryActive.map((item, i) => {
-        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu}/>
+        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} path={path}/>
     });
 
     const menuOfSelectedCategoryHidden = menuItemsToShow(false);

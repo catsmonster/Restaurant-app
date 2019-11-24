@@ -21,6 +21,9 @@ function App() {
     const [categoryActive, setCategoryActive] = useState(0);
     const [navActive, setNavActive] = useState(0);
     const [clickedOnDelivered, setClickedOnDelivered] = useState(false);
+    const [clickMenuItem, setClickMenuItem] = useState({status: 'false'});
+    const [clickSpecialItem, setClickSpecialItem] = useState('false');
+    const [openNav, setOpenNav] = useState({status: false, change: ''});
     const [tempTables, setTempTables] = useState([{
         id: 0,
         orders: [],
@@ -64,25 +67,35 @@ function App() {
         setMenuSearch('');
         setMenuInput({name: '', price: 0, category: ''});
         setAddNewItemtoMenu(false);
+        const updatedClickMenuItem = {...clickMenuItem};
+        updatedClickMenuItem.status = 'false';
+        setClickMenuItem(updatedClickMenuItem);
+        setClickSpecialItem('false');
     };
 
-    const getRelevantOrders = (status) => {
+    const getRelevantOrders = (status, special) => {
         let tempWaitingOrders = [];
         if (path === 'waiters' || path === 'kitchen') {
             for (let i=0; i<tempTables.length; i++) {
                 tempWaitingOrders.push(tempTables[i].orders.filter((order) => order.status === status));
             }
         } else if (path.includes('order_')) {
-            tempWaitingOrders.push(tempTables[clickedTable].orders.filter((order) => order.status === status));
+            const normalOrders = tempTables[clickedTable].orders.filter((order) => order.status === status && (order.comments.length === 0));
+            const customOrders = tempTables[clickedTable].orders.filter((order)=> order.status === status && order.comments.length > 0);
+            if (special) {
+                tempWaitingOrders.push(customOrders);
+            } else {
+                tempWaitingOrders.push(normalOrders);
+            }
         }
 
         const waitingOrders = tempWaitingOrders.flat(1);
 
-        waitingOrders.sort((a,b)=>a.time.getTime() - b.time.getTime());
+        waitingOrders.sort((a,b)=>b.time.getTime() - a.time.getTime());
 
         let ordersDetailsArray = [];
         for (let i=0; i<waitingOrders.length; i++) {
-            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status, waitingOrders[i].comments]);
+            ordersDetailsArray.push([waitingOrders[i].name, waitingOrders[i].table, waitingOrders[i].time.getTime(), waitingOrders[i].status, waitingOrders[i].comments, waitingOrders[i].price]);
         }
         return ordersDetailsArray;
     };
@@ -119,15 +132,15 @@ function App() {
 
     return (
         <div className="App">
-            <Navigation setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
+            <Navigation openNav={openNav} setOpenNav={setOpenNav} setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
             {path === 'tables' ?
                 <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
                 : path.includes(`order_`) ?
-                    <Orders clickedOnDelivered={clickedOnDelivered} setClickedOnDelivered={setClickedOnDelivered} tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
-                        <CustomizeMenu tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> : path === 'Statistics' ?
-                        <Statistics onSetDone={onSetDone} getRelevantOrders={getRelevantOrders} logTables={logTables}/> : path === 'kitchen' ?
-                        <KitchenStuff onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/> :
-                        <Waiters onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/>
+                    <Orders clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} clickedOnDelivered={clickedOnDelivered} setClickedOnDelivered={setClickedOnDelivered} tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} enumerateOrders={enumerateOrders} getRelevantOrders={getRelevantOrders} categoryActive={categoryActive} setCategoryActive={setCategoryActive} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} menuSearch={menuSearch} setMenuSearch={setMenuSearch} logTables={logTables} setLogTables={setLogTables} tempTables={tempTables} clickedTable={clickedTable} setTempTables={setTempTables}/> : path.includes('customize') ?
+                        <CustomizeMenu setClickMenuItem={setClickMenuItem} clickMenuItem={clickMenuItem} tempMenu={tempMenu} setTempMenu={setTempMenu} path={path} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} menuSearch={menuSearch} clickedTable={clickedTable} tempTables={tempTables} setMenuSearch={setMenuSearch} categoryActive={categoryActive} setCategoryActive={setCategoryActive} setTempTables={setTempTables} addNewItemtoMenu={addNewItemtoMenu} setAddNewItemtoMenu={setAddNewItemtoMenu} menuInput={menuInput} setMenuInput={setMenuInput} /> : path === 'Statistics' ?
+                        <Statistics clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onSetDone={onSetDone} getRelevantOrders={getRelevantOrders} logTables={logTables}/> : path === 'kitchen' ?
+                        <KitchenStuff clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/> :
+                        <Waiters clickSpecialItem={clickSpecialItem} setClickSpecialItem={setClickSpecialItem} onSetDone={onSetDone} getRelevantOrders={getRelevantOrders}/>
             }
         </div>
     );
