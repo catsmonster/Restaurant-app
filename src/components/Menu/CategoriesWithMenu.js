@@ -5,7 +5,7 @@ import Scroll from "../Scroll";
 import SearchMenu from "../SearchMenu/SearchMenu";
 
 const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setSelectedCategory, setMenuSearch, menuSearch, selectedCategory, categoryActive, setCategoryActive, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem}) => {
-    const onClickMenu = ({name, price, source}) => {
+    const onClickMenu = ({name, price, source, id}) => {
         if (path.includes('order_')) {
             const updatedTempTables = [...tempTables];
             if (source === 'add') {
@@ -28,16 +28,65 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
             updatedTempTables[clickedTable].tableActive = 'waiting';
             setTempTables(updatedTempTables);
         } else {
-            const indexOfSelectedItem = tempMenu.findIndex((item) => item.name === name);
+            const indexOfSelectedItem = tempMenu.findIndex((item) => item.id === id);
             const updateTempMenu = [...tempMenu];
-            if (updateTempMenu[indexOfSelectedItem].active === true) {
+            if (source === 'Remove') {
                 updateTempMenu[indexOfSelectedItem].active = false;
-                setTempMenu(updateTempMenu);
-            } else {
-                updateTempMenu[indexOfSelectedItem].active = true;
-                setTempMenu(updateTempMenu);
+            } else if (source === 'recover') {
+                if (updateTempMenu.filter((item) => item.active === true && item.name === name).length > 0) {
+                    alert('Unable to recover a dish with the same name as another active dish.')
+                } else {
+                    updateTempMenu[indexOfSelectedItem].active = true;
+                }
+            } else if (source === 'updateName') {
+                let inputName = '';
+                inputName = prompt('Please provide a new name for the dish');
+                if (inputName) {
+                    if (inputName.length > 0) {
+                        while (tempMenu.filter((item) => item.name.toLowerCase() === inputName.toLowerCase()).length > 0) {
+                            inputName = prompt('Given name already exists, please provide a unique new name');
+                            if (inputName) {
+                                if (inputName.length > 0) {
+                                    inputName.toLowerCase();
+                                }
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+                } else {
+                    return;
+                }
+                updateTempMenu[indexOfSelectedItem].active = false;
+                updateTempMenu.push({
+                    id: updateTempMenu.length + 1,
+                    name: inputName,
+                    price: updateTempMenu[indexOfSelectedItem].price,
+                    category: updateTempMenu[indexOfSelectedItem].category,
+                    active: true
+                });
+            } else if (source === 'updatePrice') {
+                let inputPrice = null;
+                inputPrice = Number(prompt('Please provide a new price for the dish'));
+                if (inputPrice) {
+                    while (isNaN(inputPrice) || inputPrice === 0) {
+                        inputPrice = Number(prompt('Please provide a valid price for the dish'));
+                    }
+                } else {
+                    return;
+                }
+                updateTempMenu[indexOfSelectedItem].active = false;
+                updateTempMenu.push({
+                    id: updateTempMenu.length + 1,
+                    name: updateTempMenu[indexOfSelectedItem].name,
+                    price: inputPrice,
+                    category: updateTempMenu[indexOfSelectedItem].category,
+                    active: true
+                });
             }
+            setTempMenu(updateTempMenu);
         }
+
     };
 
     const onClickCategory = ({name}) => {
@@ -60,13 +109,13 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
     const menuOfSelectedCategoryActive = menuItemsToShow(true);
 
     const menuArrayActive = menuOfSelectedCategoryActive.map((item, i) => {
-        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} path={path}/>
+        return <Menu key={menuOfSelectedCategoryActive[i].id} id={menuOfSelectedCategoryActive[i].id} name={menuOfSelectedCategoryActive[i].name} price={menuOfSelectedCategoryActive[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} path={path} tempMenu={tempMenu}/>
     });
 
     const menuOfSelectedCategoryHidden = menuItemsToShow(false);
 
     const menuArrayHidden = menuOfSelectedCategoryHidden.map((item, i) => {
-        return <Menu key={menuOfSelectedCategoryHidden[i].id} id={menuOfSelectedCategoryHidden[i].id} name={menuOfSelectedCategoryHidden[i].name} price={menuOfSelectedCategoryHidden[i].price} onClickMenu={onClickMenu}/>
+        return <Menu key={menuOfSelectedCategoryHidden[i].id} id={menuOfSelectedCategoryHidden[i].id} name={menuOfSelectedCategoryHidden[i].name} price={menuOfSelectedCategoryHidden[i].price} onClickMenu={onClickMenu} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} path={path} tempMenu={tempMenu}/>
     });
 
     let allCategoriesActive = ['All'];

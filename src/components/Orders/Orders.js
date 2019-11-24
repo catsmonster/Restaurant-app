@@ -37,9 +37,10 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         }
         let priceOfSelectedItem = 0;
-        for (let i=0; i<tempMenu.length; i++)
-            if (tempMenu[i].name === name[0]) {
-                priceOfSelectedItem = tempMenu[i].price;
+        const activeTempMenu = tempMenu.filter((item) => item.active === true);
+        for (let i=0; i<activeTempMenu.length; i++)
+            if (activeTempMenu[i].name === name[0]) {
+                priceOfSelectedItem = activeTempMenu[i].price;
             }
         decrementPriceFromTable(priceOfSelectedItem);
         setTempTables(updatedTempTables);
