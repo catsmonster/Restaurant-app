@@ -5,10 +5,12 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
 
     const onChangeClickMenuItem = (source) => {
         const updatedClickMenuItem = {...clickMenuItem};
-        if (source === 'clickMenu') {
+        if (source === 'clickMenu' && !updatedClickMenuItem.toggle) {
             updatedClickMenuItem.status = id;
+            updatedClickMenuItem.toggle = true;
         } else {
             updatedClickMenuItem.status = 'false';
+            updatedClickMenuItem.toggle = false;
             onClickMenu({name, price, source, id});
         }
         setClickMenuItem(updatedClickMenuItem);
@@ -18,15 +20,24 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
 
     const initialMenu =
         (
-            <div onClick={()=> {
-                onChangeClickMenuItem('clickMenu')
-                }} className='menuContainer'>
+            <div className='menuContainer'>
+                {clickMenuItem.toggle === true && clickMenuItem.status === id ?
+                <button onClick={()=> {
+                    onChangeClickMenuItem('clickMenu')
+                }}>&#8911;</button> :
+                <button onClick={()=> {
+                    onChangeClickMenuItem('clickMenu')
+                }}>&#8910;</button>
+                }
                 <span className='menuItem'>
                     {name}
                 </span>
                 <span className='menuItem'>
                     {price}
                 </span>
+                {path.includes('order_') ?
+                    <button onClick={() => onChangeClickMenuItem('add')}>&oplus;</button> : null
+                }
             </div>
         );
 
@@ -35,7 +46,6 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
             {clickMenuItem.status === id && path.includes('order_') ?
                 <div>
                     {initialMenu}
-                    <button onClick={()=> onChangeClickMenuItem('add')}>Add</button>
                     <button onClick={()=> onChangeClickMenuItem('addCustom')}>Add with a custom price</button>
                     <button onClick={()=> onChangeClickMenuItem('addComment')}>Add with a comment</button>
                     <button onClick={()=> onChangeClickMenuItem('addCustomComment')}>Add with a custom price and a comment</button>
