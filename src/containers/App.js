@@ -23,7 +23,7 @@ function App() {
     const [clickedOnDelivered, setClickedOnDelivered] = useState(false);
     const [clickMenuItem, setClickMenuItem] = useState({status: 'false'});
     const [clickSpecialItem, setClickSpecialItem] = useState('false');
-    const [openNav, setOpenNav] = useState({status: false, change: ''});
+    const [openNav, setOpenNav] = useState(false);
     const [tempTables, setTempTables] = useState([{
         id: 0,
         orders: [],

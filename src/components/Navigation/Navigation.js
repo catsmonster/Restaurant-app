@@ -3,28 +3,29 @@ import './Navigation.css';
 
 const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, openNav, setOpenNav}) => {
 
+    const addClass = () => {
+        if (openNav) {
+            return 'change';
+        } else {
+            return '';
+        }
+    };
+
     const burgerKing = (
         <div className='burgerPosition'>
-            <div className="burgerContainer" onClick={()=> {
-                const updatedOpenNav = {...openNav};
-                updatedOpenNav.status = !openNav.status;
-                if (openNav) {
-                    updatedOpenNav.change = 'change';
-                } else {
-                    updatedOpenNav.change = '';
-                }
-                setOpenNav(updatedOpenNav)
+            <div className={`burgerContainer ${addClass()}`} onClick={()=> {
+                setOpenNav(!openNav);
             }}>
-                <div className={`bar1 ${openNav.change}`}></div>
-                <div className={`bar2 ${openNav.change}`}></div>
-                <div className={`bar3 ${openNav.change}`}></div>
+                <div className={`bar1`}></div>
+                <div className={`bar2`}></div>
+                <div className={`bar3`}></div>
             </div>
         </div>
     );
 
     return (
         <div>
-            {openNav.status ?
+            {openNav ?
             <div>
                 <div>
                     {burgerKing}
