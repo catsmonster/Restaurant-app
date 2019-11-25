@@ -156,31 +156,42 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             <div className='menuArrayContainer'>
                 {numWaitingOrders > 0 ?
                     <div className='selectedMenu'>
-                        <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
                         {clickMenuItem.status === 'waitingOrders' && clickMenuItem.toggle === true ?
                             <div>
-                                <button className='addTable' onClick={() => onExpand('waitingOrders')}>&#8911;</button>
+                                <div className='expandableTitle'>
+                                    <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
+                                    <button className='addTable' onClick={() => onExpand('waitingOrders')}>&#8911;</button>
+                                </div>
                                 <Scroll>
                                     {selectedMenuArr}
                                     {waitingSpecialOrdersArr}
                                 </Scroll>
                             </div> :
-                            <button className='addTable' onClick={() => onExpand('waitingOrders')}>&#8910;</button>
+                            <div className='expandableTitle'>
+                                <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
+                                <button className='addTable' onClick={() => onExpand('waitingOrders')}>&#8910;</button>
+                            </div>
                         }
                     </div> : null
                 }
                 <div className='selectedMenu'>
                     {numPreparedOrders > 0 ?
                         <div>
-                            <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
                             {clickMenuItem.status === 'preparedOrders' && clickMenuItem.toggle === true ?
                                 <div>
-                                    <button className='addTable' onClick={() => onExpand('preparedOrders')}>&#8911;</button>
+                                    <div className='expandableTitle'>
+                                        <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
+                                        <button className='addTable' onClick={() => onExpand('preparedOrders')}>&#8911;</button>
+                                    </div>
                                     <Scroll>
                                         {preparedOrdersArr}
                                         {preparedSpecialOrdersArr}
                                     </Scroll>
-                                </div> : <button className='addTable' onClick={() => onExpand('preparedOrders')}>&#8910;</button>
+                                </div> :
+                                <div className='expandableTitle'>
+                                    <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
+                                    <button className='addTable' onClick={() => onExpand('preparedOrders')}>&#8910;</button>
+                                </div>
                             }
                         </div> : null
                     }
@@ -188,16 +199,21 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                 <div className='selectedMenu'>
                     {numDeliveredOrders > 0 ?
                         <div>
-                            <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
                             {clickMenuItem.status === 'deliveredOrders' && clickMenuItem.toggle === true ?
                                 <div>
-                                    <button className='addTable' onClick={() => onExpand('deliveredOrders')}>&#8911;</button>
+                                    <div className='expandableTitle'>
+                                        <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
+                                        <button className='addTable' onClick={() => onExpand('deliveredOrders')}>&#8911;</button>
+                                    </div>
                                     <Scroll>
                                         {deliveredOrdersArr}
                                         {deliveredSpecialOrdersArr}
                                     </Scroll>
                                 </div> :
-                                <button className='addTable' onClick={() => onExpand('deliveredOrders')}>&#8910;</button>
+                                <div className='expandableTitle'>
+                                    <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
+                                    <button className='addTable' onClick={() => onExpand('deliveredOrders')}>&#8910;</button>
+                                </div>
                             }
                         </div> : null
                     }
