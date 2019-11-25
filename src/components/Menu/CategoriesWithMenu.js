@@ -29,10 +29,12 @@ const CategoriesWithMenu = ({tempTables, clickedTable, setTempTables, path, setS
                 }
             } else if (source === 'addCustomComment') {
                 const priceInput = prompt('Enter your custom price:');
-                const commentInput = prompt('Enter your custom comment:');
-                if (priceInput && commentInput && !isNaN(Number(priceInput))) {
-                    updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`, commentInput], price: priceInput});
-                    updatedTempTables[clickedTable].total += Number(priceInput);
+                if (priceInput && !isNaN(Number(priceInput))) {
+                    const commentInput = prompt('Enter your custom comment:');
+                    if (commentInput) {
+                        updatedTempTables[clickedTable].orders.push({name: name, status: 'waiting', time: new Date(), table: clickedTable, comments: [`custom price ${priceInput}`, commentInput], price: priceInput});
+                        updatedTempTables[clickedTable].total += Number(priceInput);
+                    }
                 } else {
                     return;
                 }

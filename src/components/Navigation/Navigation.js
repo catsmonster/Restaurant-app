@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navigation.css';
 
-const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, openNav, setOpenNav}) => {
+const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, openNav, setOpenNav, tempTables}) => {
 
     const addClass = () => {
         if (openNav) {
@@ -23,6 +23,16 @@ const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, op
         </div>
     );
 
+    let waitingOrders = 0;
+    for (let i=0; i<tempTables.length; i++) {
+        waitingOrders += tempTables[i].orders.filter((order)=> order.status === 'waiting').length;
+    }
+
+    let preparedOrders = 0;
+    for (let i=0; i<tempTables.length; i++) {
+        preparedOrders += tempTables[i].orders.filter((order)=> order.status === 'prepared').length;
+    }
+
     return (
         <div>
             {openNav ?
@@ -32,8 +42,8 @@ const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, op
                 </div>
                 <ul className='NavUl'>
                     <li className={`NavLi ${navActive===0 ? 'navActive' : ''}`} onClick={()=> {setPath('tables'); resetWhenChangingPath(); setNavActive(0);}}>Tables</li>
-                    <li className={`NavLi ${navActive===1 ? 'navActive' : ''}`} onClick={()=> {setPath('kitchen'); resetWhenChangingPath(); setNavActive(1);}}>Kitchen Stuff</li>
-                    <li className={`NavLi ${navActive===2 ? 'navActive' : ''}`} onClick={()=> {setPath('waiters'); resetWhenChangingPath(); setNavActive(2);}}>Waiters</li>
+                    <li className={`NavLi ${navActive===1 ? 'navActive' : ''}`} onClick={()=> {setPath('kitchen'); resetWhenChangingPath(); setNavActive(1);}}>{`Kitchen Stuff ${waitingOrders}`}</li>
+                    <li className={`NavLi ${navActive===2 ? 'navActive' : ''}`} onClick={()=> {setPath('waiters'); resetWhenChangingPath(); setNavActive(2);}}>{`Waiters ${preparedOrders}`}</li>
                     <li className={`NavLi ${navActive===3 ? 'navActive' : ''}`} onClick={()=> {setPath('customize'); resetWhenChangingPath(); setNavActive(3);}}>Customize menu</li>
                     <li className={`NavLi ${navActive===4 ? 'navActive' : ''}`} onClick={()=> {setPath('Statistics'); resetWhenChangingPath(); setNavActive(4);}}>Management</li>
                 </ul>

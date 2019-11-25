@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
 import Scroll from "../Scroll";
@@ -9,6 +9,9 @@ import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
 const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem}) => {
 
+    let numWaitingOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'waiting').length;
+    let numPreparedOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'prepared').length;
+    let numDeliveredOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'delivered').length;
 
     const waitingOrders = getRelevantOrders('waiting', false);
     const preparedOrders = getRelevantOrders('prepared', false);
@@ -132,6 +135,18 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         clearTable();
     };
 
+    const onExpand = (source) => {
+      const updatedClickMenuItem = {...clickMenuItem};
+        if ((source === 'waitingOrders' || source === 'preparedOrders' || source === 'deliveredOrders') && !updatedClickMenuItem.toggle) {
+            updatedClickMenuItem.status = source;
+            updatedClickMenuItem.toggle = true;
+        } else {
+            updatedClickMenuItem.status = 'false';
+            updatedClickMenuItem.toggle = false;
+        }
+        setClickMenuItem(updatedClickMenuItem);
+    };
+
     return (
         <div className='statisticsMain'>
             <h1>This is da menu!</h1>
@@ -139,25 +154,43 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
             <div className='menuArrayContainer'>
                 <div className='selectedMenu'>
-                    <h3>Waiting orders:</h3>
-                    <Scroll>
-                        {selectedMenuArr}
-                        {waitingSpecialOrdersArr}
-                    </Scroll>
+                    <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
+                    {clickMenuItem.status === 'waitingOrders' && clickMenuItem.toggle === true ?
+                        <div>
+                            <button onClick={()=> onExpand('waitingOrders')}>&#8911;</button>
+                            <Scroll>
+                                {selectedMenuArr}
+                                {waitingSpecialOrdersArr}
+                            </Scroll>
+                        </div> :
+                            <button onClick={()=> onExpand('waitingOrders')}>&#8910;</button>
+                    }
                 </div>
                 <div className='selectedMenu'>
-                    <h3>Ready for delivery:</h3>
-                    <Scroll>
-                        {preparedOrdersArr}
-                        {preparedSpecialOrdersArr}
-                    </Scroll>
+                    <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
+                    {clickMenuItem.status === 'preparedOrders' && clickMenuItem.toggle === true ?
+                        <div>
+                            <button onClick={() => onExpand('preparedOrders')}>&#8911;</button>
+                            <Scroll>
+                                {preparedOrdersArr}
+                                {preparedSpecialOrdersArr}
+                            </Scroll>
+                        </div> : <button onClick={()=> onExpand('preparedOrders')}>&#8910;</button>
+
+                    }
                 </div>
                 <div className='selectedMenu'>
-                    <h3>Orders delivered:</h3>
-                    <Scroll>
-                        {deliveredOrdersArr}
-                        {deliveredSpecialOrdersArr}
-                    </Scroll>
+                    <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
+                    {clickMenuItem.status === 'deliveredOrders' && clickMenuItem.toggle === true ?
+                        <div>
+                            <button onClick={() => onExpand('deliveredOrders')}>&#8911;</button>
+                            <Scroll>
+                                {deliveredOrdersArr}
+                                {deliveredSpecialOrdersArr}
+                            </Scroll>
+                        </div> :
+                        <button onClick={() => onExpand('deliveredOrders')}>&#8910;</button>
+                    }
                 </div>
             </div>
             <p>{`For a total of ${tempTables[clickedTable].total}`}</p>
