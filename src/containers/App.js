@@ -13,7 +13,7 @@ function App() {
     const [clickCount, setClickCount] = useState(1);
     const [path, setPath] = useState('tables');
     const [clickedTable, setClickedTable] = useState(0);
-    const [logTables, setLogTables] = useState({orders: [], total: 0});
+    const [logTables, setLogTables] = useState({orders: [], total: 0, waiting: 0, prepared: 0, delivered: 0});
     const [menuSearch, setMenuSearch] = useState('');
     const [menuInput, setMenuInput] = useState({name: '', price: 0, category: ''});
     const [addNewItemtoMenu, setAddNewItemtoMenu] = useState(false);
@@ -71,6 +71,7 @@ function App() {
         updatedClickMenuItem.status = 'false';
         setClickMenuItem(updatedClickMenuItem);
         setClickSpecialItem('false');
+        setOpenNav(false);
     };
 
     const getRelevantOrders = (status, special) => {
@@ -132,7 +133,7 @@ function App() {
 
     return (
         <div className="App">
-            <Navigation openNav={openNav} setOpenNav={setOpenNav} setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
+            <Navigation tempTables={tempTables} openNav={openNav} setOpenNav={setOpenNav} setNavActive={setNavActive} navActive={navActive} resetWhenChangingPath={resetWhenChangingPath} setPath={setPath} />
             {path === 'tables' ?
                 <Tables clickedTable={clickedTable} setClickedTable={setClickedTable} clickCount={clickCount} setClickCount={setClickCount} setTempTables={setTempTables} tempTables={tempTables} path={path} setPath={setPath}/>
                 : path.includes(`order_`) ?

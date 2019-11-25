@@ -10,7 +10,8 @@ span {
 
 .menuArrayContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .foodContainer {
@@ -43,7 +44,9 @@ span {
 
 .selectedMenu {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .orderHeaders {
