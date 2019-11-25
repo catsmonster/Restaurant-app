@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './Orders.css'
 import RemoveMenu from "../RemoveMenu/RemoveMenu";
 import Scroll from "../Scroll";
@@ -7,7 +7,7 @@ import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem, setPath}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem, setPath, expandTableOrders, setExpandTableOrders}) => {
 
     let numWaitingOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'waiting').length;
     let numPreparedOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'prepared').length;
@@ -29,14 +29,28 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
         const updatedTempTables = [...tempTables];
         const orderedItemsArr = updatedTempTables[clickedTable].orders;
         let indexOfOrderedItem = 0;
+
+
         if (status === 'waiting') {
             indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'waiting') && (item.comments.length === 0));
             updatedTempTables[clickedTable].orders.splice(indexOfOrderedItem, 1);
         } else if (status === 'delivered') {
             indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'delivered') && (item.comments.length === 0));
+            const inputComment = prompt('Why was the dish returned?');
+            if (inputComment) {
+                updatedTempTables[clickedTable].orders[indexOfOrderedItem].comments.push(`return reason: ${inputComment}`);
+            } else {
+                return;
+            }
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         } else {
             indexOfOrderedItem = orderedItemsArr.findIndex((item) => item.name === name[0] && (item.status === 'prepared') && (item.comments.length === 0));
+            const inputComment = prompt('Why was the dish returned?');
+            if (inputComment) {
+                updatedTempTables[clickedTable].orders[indexOfOrderedItem].comments.push(`return reason: ${inputComment}`);
+            } else {
+                return;
+            }
             updatedTempTables[clickedTable].orders[indexOfOrderedItem].status = 'returned';
         }
         let priceOfSelectedItem = 0;
@@ -136,15 +150,12 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     };
 
     const onExpand = (source) => {
-      const updatedClickMenuItem = {...clickMenuItem};
-        if ((source === 'waitingOrders' || source === 'preparedOrders' || source === 'deliveredOrders') && !updatedClickMenuItem.toggle) {
-            updatedClickMenuItem.status = source;
-            updatedClickMenuItem.toggle = true;
-        } else {
-            updatedClickMenuItem.status = 'false';
-            updatedClickMenuItem.toggle = false;
+      const updateExpand = {...expandTableOrders};
+        if ((source === 'waitingOrders' || source === 'preparedOrders' || source === 'deliveredOrders')){
+            updateExpand.status = source;
+            updateExpand.toggle = !updateExpand.toggle;
+            setExpandTableOrders(updateExpand);
         }
-        setClickMenuItem(updatedClickMenuItem);
     };
 
     return (
@@ -156,7 +167,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             <div className='menuArrayContainer'>
                 {numWaitingOrders > 0 ?
                     <div className='selectedMenu'>
-                        {clickMenuItem.status === 'waitingOrders' && clickMenuItem.toggle === true ?
+                        {expandTableOrders.status === 'waitingOrders' && expandTableOrders.toggle === true ?
                             <div>
                                 <div className='expandableTitle'>
                                     <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
@@ -177,7 +188,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                 <div className='selectedMenu'>
                     {numPreparedOrders > 0 ?
                         <div>
-                            {clickMenuItem.status === 'preparedOrders' && clickMenuItem.toggle === true ?
+                            {expandTableOrders.status === 'preparedOrders' && expandTableOrders.toggle === true ?
                                 <div>
                                     <div className='expandableTitle'>
                                         <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
@@ -199,7 +210,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                 <div className='selectedMenu'>
                     {numDeliveredOrders > 0 ?
                         <div>
-                            {clickMenuItem.status === 'deliveredOrders' && clickMenuItem.toggle === true ?
+                            {expandTableOrders.status === 'deliveredOrders' && expandTableOrders.toggle === true ?
                                 <div>
                                     <div className='expandableTitle'>
                                         <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
