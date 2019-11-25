@@ -7,7 +7,7 @@ import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem, setPath}) => {
 
     let numWaitingOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'waiting').length;
     let numPreparedOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'prepared').length;
@@ -149,6 +149,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
 
     return (
         <div className='statisticsMain'>
+            <button onClick={()=> setPath('tables')}>Go back</button>
             <h1>This is da menu!</h1>
             <CategoriesWithMenu clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} setTempTables={setTempTables} setCategoryActive={setCategoryActive} categoryActive={categoryActive} setMenuSearch={setMenuSearch} tempTables={tempTables} path={path} clickedTable={clickedTable} menuSearch={menuSearch} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} tempMenu={tempMenu} setTempMenu={setTempMenu}/>
             <h1>{`Table ${tempTables[clickedTable].id + 1} ordered the following items:`}</h1>
