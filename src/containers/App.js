@@ -21,7 +21,7 @@ function App() {
     const [categoryActive, setCategoryActive] = useState(0);
     const [navActive, setNavActive] = useState(0);
     const [clickedOnDelivered, setClickedOnDelivered] = useState(false);
-    const [clickMenuItem, setClickMenuItem] = useState({status: 'false', toggle: false});
+    const [clickMenuItem, setClickMenuItem] = useState({status: 'false', toggle: false, prevState: ''});
     const [clickSpecialItem, setClickSpecialItem] = useState('false');
     const [openNav, setOpenNav] = useState(false);
     const [expandTableOrders, setExpandTableOrders] = useState({status: 'false', toggle: false});

@@ -5,13 +5,17 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
 
     const onChangeClickMenuItem = (source) => {
         const updatedClickMenuItem = {...clickMenuItem};
-        if (source === 'clickMenu' && !updatedClickMenuItem.toggle) {
-            updatedClickMenuItem.status = id;
-            updatedClickMenuItem.toggle = true;
+        updatedClickMenuItem.status = `${id}`;
+        if (updatedClickMenuItem.status === source) {
+            if (updatedClickMenuItem.prevState !== source) {
+                updatedClickMenuItem.toggle = true;
+                updatedClickMenuItem.prevState = source;
+            } else {
+                updatedClickMenuItem.toggle = !updatedClickMenuItem.toggle;
+            }
+
         } else {
-            updatedClickMenuItem.status = 'false';
-            updatedClickMenuItem.toggle = false;
-            onClickMenu({name, price, source, id});
+            onClickMenu({name, id, source, price})
         }
         setClickMenuItem(updatedClickMenuItem);
     };
@@ -21,12 +25,12 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
     const initialMenu =
         (
             <div className='menuContainer'>
-                {clickMenuItem.toggle === true && clickMenuItem.status === id ?
+                {clickMenuItem.toggle === true && clickMenuItem.status === `${id}` ?
                 <button className='addTable' onClick={()=> {
-                    onChangeClickMenuItem('clickMenu')
+                    onChangeClickMenuItem(`${id}`)
                 }}>&#8911;</button> :
                 <button className='addTable' onClick={()=> {
-                    onChangeClickMenuItem('clickMenu')
+                    onChangeClickMenuItem(`${id}`)
                 }}>&#8910;</button>
                 }
                 <span className='menuItem'>
@@ -43,13 +47,13 @@ const Menu = ({id, name, price, onClickMenu, clickMenuItem, setClickMenuItem, pa
 
     return (
         <div>
-            {clickMenuItem.status === id && path.includes('order_') ?
+            {clickMenuItem.status === `${id}` && path.includes('order_') && clickMenuItem.toggle === true ?
                 <div>
                     {initialMenu}
                     <button className='addTable' onClick={()=> onChangeClickMenuItem('addCustom')}>Add with a custom price</button>
                     <button className='addTable' onClick={()=> onChangeClickMenuItem('addComment')}>Add with a comment</button>
                     <button className='addTable' onClick={()=> onChangeClickMenuItem('addCustomComment')}>Add with a custom price and a comment</button>
-                </div> : clickMenuItem.status === id && path.includes('custom') ?
+                </div> : clickMenuItem.status === `${id}` && path.includes('custom')  && clickMenuItem.toggle === true ?
                 <div>
                     {initialMenu}
                     {tempMenu[indexOfSelectedItem].active === false ?

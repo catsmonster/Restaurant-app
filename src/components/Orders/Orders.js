@@ -7,7 +7,7 @@ import ReturnDelivered from "../ReturnDelivered/ReturnDelivered";
 import ReturnPrepared from "../ReturnPrepared/ReturnPrepared";
 import SpecialOrders from "../SpecialOrders/SpecialOrders";
 
-const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem, setPath, expandTableOrders, setExpandTableOrders}) => {
+const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLogTables, setMenuSearch, menuSearch, selectedCategory, setSelectedCategory, categoryActive, setCategoryActive, getRelevantOrders, enumerateOrders, tempMenu, setTempMenu, clickMenuItem, setClickMenuItem, clickSpecialItem, setClickSpecialItem, setPath}) => {
 
     let numWaitingOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'waiting').length;
     let numPreparedOrders = tempTables[clickedTable].orders.filter((order) => order.status === 'prepared').length;
@@ -90,18 +90,18 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     };
 
     const selectedMenuArr = arrCount.map((item, i)=> {
-        return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+        return <RemoveMenu key={i} id={i} name={arrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} setClickMenuItem={setClickMenuItem} clickMenuItem={clickMenuItem} />
     });
 
     const tempDeliveredOrders = getRelevantOrders('delivered', false);
     const deliveredOrders = enumerateOrders(tempDeliveredOrders);
 
     const deliveredOrdersArr = deliveredOrders.map((item, i)=> {
-        return <ReturnDelivered key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+        return <ReturnDelivered key={i} id={i} name={deliveredOrders[i]} onRemoveOrderedItem={onRemoveOrderedItem} clickMenuItem={clickMenuItem} setClickMenuItem={setClickMenuItem} />
     });
 
     const preparedOrdersArr = prepArrCount.map((item, i)=> {
-        return <ReturnPrepared key={i} id={i} name={prepArrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} />
+        return <ReturnPrepared key={i} id={i} name={prepArrCount[i]} onRemoveOrderedItem={onRemoveOrderedItem} setClickMenuItem={setClickMenuItem} clickMenuItem={clickMenuItem} />
     });
 
     const waitingSpecialOrdersArr = specialWaitingOrders.map((item, i)=> {
@@ -150,11 +150,18 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
     };
 
     const onExpand = (source) => {
-      const updateExpand = {...expandTableOrders};
+      const updateExpand = {...clickMenuItem};
+      updateExpand.status = source;
         if ((source === 'waitingOrders' || source === 'preparedOrders' || source === 'deliveredOrders')){
-            updateExpand.status = source;
-            updateExpand.toggle = !updateExpand.toggle;
-            setExpandTableOrders(updateExpand);
+            if (updateExpand.status === source) {
+                if (updateExpand.prevState !== source) {
+                    updateExpand.toggle = true;
+                    updateExpand.prevState = source;
+                } else {
+                    updateExpand.toggle = !updateExpand.toggle;
+                }
+            }
+            setClickMenuItem(updateExpand);
         }
     };
 
@@ -167,7 +174,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
             <div className='menuArrayContainer'>
                 {numWaitingOrders > 0 ?
                     <div className='selectedMenu'>
-                        {expandTableOrders.status === 'waitingOrders' && expandTableOrders.toggle === true ?
+                        {clickMenuItem.status === 'waitingOrders' && clickMenuItem.toggle === true ?
                             <div>
                                 <div className='expandableTitle'>
                                     <h3>{`Waiting orders: ${numWaitingOrders}`}</h3>
@@ -188,7 +195,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                 <div className='selectedMenu'>
                     {numPreparedOrders > 0 ?
                         <div>
-                            {expandTableOrders.status === 'preparedOrders' && expandTableOrders.toggle === true ?
+                            {clickMenuItem.status === 'preparedOrders' && clickMenuItem.toggle === true ?
                                 <div>
                                     <div className='expandableTitle'>
                                         <h3>{`Ready for delivery: ${numPreparedOrders}`}</h3>
@@ -210,7 +217,7 @@ const Orders = ({path, tempTables, clickedTable, setTempTables, logTables, setLo
                 <div className='selectedMenu'>
                     {numDeliveredOrders > 0 ?
                         <div>
-                            {expandTableOrders.status === 'deliveredOrders' && expandTableOrders.toggle === true ?
+                            {clickMenuItem.status === 'deliveredOrders' && clickMenuItem.toggle === true ?
                                 <div>
                                     <div className='expandableTitle'>
                                         <h3>{`Orders delivered: ${numDeliveredOrders}`}</h3>
