@@ -24,13 +24,13 @@ const Navigation = ({setPath, resetWhenChangingPath, setNavActive, navActive, op
     );
 
     let waitingOrders = 0;
-    for (let i=0; i<tempTables.length; i++) {
-        waitingOrders += tempTables[i].orders.filter((order)=> order.status === 'waiting').length;
+    for (const table of Object.values(tempTables)) {
+        waitingOrders += table.orders.filter((order)=> order.status === 'waiting').length;
     }
 
     let preparedOrders = 0;
-    for (let i=0; i<tempTables.length; i++) {
-        preparedOrders += tempTables[i].orders.filter((order)=> order.status === 'prepared').length;
+    for (const table of Object.values(tempTables)) {
+        preparedOrders += table.orders.filter((order)=> order.status === 'prepared').length;
     }
 
     return (

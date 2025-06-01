@@ -24,13 +24,15 @@ function App() {
     const [clickMenuItem, setClickMenuItem] = useState({status: 'false', toggle: false});
     const [clickSpecialItem, setClickSpecialItem] = useState('false');
     const [openNav, setOpenNav] = useState(false);
-    const [tempTables, setTempTables] = useState([{
-        id: 0,
-        orders: [],
-        total: 0,
-        tableActive: 'false',
-        timeAdded: new Date()
-    }]);
+    const [tempTables, setTempTables] = useState({
+        0: { // Key is '0'
+            id: 0,
+            orders: [],
+            total: 0,
+            tableActive: 'false',
+            timeAdded: new Date()
+        }
+    });
     const [tempMenu, setTempMenu] = useState([{
         id: 1,
         name: 'grilled chicken',
@@ -77,8 +79,8 @@ function App() {
     const getRelevantOrders = (status, special) => {
         let tempWaitingOrders = [];
         if (path === 'waiters' || path === 'kitchen') {
-            for (let i=0; i<tempTables.length; i++) {
-                tempWaitingOrders.push(tempTables[i].orders.filter((order) => order.status === status));
+            for (const table of Object.values(tempTables)) {
+                tempWaitingOrders.push(table.orders.filter((order) => order.status === status));
             }
         } else if (path.includes('order_')) {
             const normalOrders = tempTables[clickedTable].orders.filter((order) => order.status === status && (order.comments.length === 0));
@@ -116,19 +118,36 @@ function App() {
         return arrCount;
     };
 
-    const onSetDone = ({time, table, status}) => {
-        const updateTempTables = [...tempTables];
-        const indexOfSelectedOrder = updateTempTables[table].orders.findIndex((order) => order.time.getTime() === time);
-        if (status === 'waiting') {
-            updateTempTables[table].orders[indexOfSelectedOrder].status = 'prepared';
-        } else {
-            updateTempTables[table].orders[indexOfSelectedOrder].status = 'delivered';
-            const ordersDelivered = updateTempTables[table].orders.filter((order) => order.status === 'delivered');
-            if (ordersDelivered.length === updateTempTables[table].orders.filter((order)=> order.status !== 'returned').length) {
-                updateTempTables[table].tableActive = 'eating';
+    const onSetDone = ({time, table: tableId, status: currentOrderStatus}) => { // Renamed params for clarity
+        const oldTableState = tempTables[tableId];
+
+        const updatedOrders = oldTableState.orders.map(order => {
+            if (order.time.getTime() === time) {
+                return { ...order, status: currentOrderStatus === 'waiting' ? 'prepared' : 'delivered' };
+            }
+            return order;
+        });
+
+        let newTableActiveState = oldTableState.tableActive;
+        // If currentOrderStatus is 'prepared', it means the order is moving from 'prepared' to 'delivered'
+        if (currentOrderStatus === 'prepared') {
+            const deliveredOrders = updatedOrders.filter(o => o.status === 'delivered');
+            const nonReturnedOrders = updatedOrders.filter(o => o.status !== 'returned');
+            if (deliveredOrders.length === nonReturnedOrders.length && nonReturnedOrders.length > 0) {
+                newTableActiveState = 'eating';
             }
         }
-        setTempTables(updateTempTables);
+        // If currentOrderStatus is 'waiting', it means the order is moving from 'waiting' to 'prepared'.
+        // The original logic didn't change tableActive in this case, so we preserve that.
+
+        setTempTables(prevTempTables => ({
+            ...prevTempTables,
+            [tableId]: {
+                ...oldTableState,
+                orders: updatedOrders,
+                tableActive: newTableActiveState
+            }
+        }));
     };
 
     return (
