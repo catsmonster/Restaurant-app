@@ -1,15 +1,12 @@
 import React from 'react';
 
-const DeleteBtn = ({tempTables, setTempTables, id, setClickCount, clickCount}) => {
+const DeleteBtn = ({tempTables, setTempTables, id}) => { // setClickCount and clickCount might become unused if not needed for other reasons after this change
     return (
         <div className='deleteBtnContainer'>
         <button className='deleteBtn' onClick={()=> {
-            const updatedTempTables = tempTables.filter((item) => item.id !== id);
-            for (let i=0; i<updatedTempTables.length; i++) {
-                updatedTempTables[i].id = i;
-            }
-            setTempTables(updatedTempTables);
-            setClickCount(clickCount - 1);
+            const { [id]: tableToRemove, ...remainingTables } = tempTables;
+            setTempTables(remainingTables);
+            // No longer decrement clickCount
         }}></button>
         </div>
     );
